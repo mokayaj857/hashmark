@@ -22,7 +22,8 @@ function chainName(id: number): string {
   return names[id] || `Chain ${id}`;
 }
 
-const CONTRACT_ADDRESS = (import.meta.env.VITE_CONTRACT_ADDRESS as string) || "";
+const _raw_contract = (import.meta.env.VITE_CONTRACT_ADDRESS as string) || "";
+const CONTRACT_ADDRESS = (_raw_contract.match(/0x[0-9a-fA-F]{40}/) || [""])[0];
 
 /* ── Real QR Code (from backend) ── */
 function QRImg({ hash }: { hash: string }) {

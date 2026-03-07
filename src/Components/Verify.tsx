@@ -6,7 +6,8 @@ import { hashFile, verifyHash, getQrCode, getInfo, type VerifyResult } from "../
 import { useWallet } from "../hooks/useWallet";
 import ABI from "../abi/Hashmark.json";
 
-const ENV_CONTRACT_ADDRESS = (import.meta.env.VITE_CONTRACT_ADDRESS as string) || "";
+const _raw_addr = (import.meta.env.VITE_CONTRACT_ADDRESS as string) || "";
+const ENV_CONTRACT_ADDRESS = (_raw_addr.match(/0x[0-9a-fA-F]{40}/) || [""])[0];
 
 /* ─── types ─── */
 interface AuthResult {
