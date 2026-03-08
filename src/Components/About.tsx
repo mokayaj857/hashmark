@@ -52,9 +52,9 @@ function getThemeVars(dark: boolean) {
       --card: 240 10% 6%;
       ` : `
       --background: 0 0% 97%;
-      --foreground: 240 10% 8%;
-      --muted: 240 5% 90%;
-      --muted-foreground: 240 5% 40%;
+      --foreground: 240 10% 5%;
+      --muted: 240 5% 88%;
+      --muted-foreground: 240 5% 25%;
       --card: 0 0% 100%;
       `}
     }

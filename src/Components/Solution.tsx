@@ -13,7 +13,8 @@ import {
 import Footer from './Footer';
 import HashmarkLogo from './HashmarkLogo';
 
-const styles = `
+function getStyles(dark: boolean) {
+  return `
   @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Rajdhani:wght@500;600;700&display=swap');
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -21,8 +22,8 @@ const styles = `
 
   body {
     font-family: 'DM Mono', 'DM Sans', sans-serif;
-    background-color: hsl(240 10% 4%);
-    color: hsl(0 0% 98%);
+    background-color: ${dark ? 'hsl(240 10% 4%)' : '#f8fafc'};
+    color: ${dark ? 'hsl(0 0% 98%)' : 'hsl(240 10% 8%)'};
     overflow-x: hidden;
   }
 
@@ -35,13 +36,14 @@ const styles = `
   @keyframes float-subtle { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-15px); } }
   @keyframes line-expand { from { scaleX: 0; } to { scaleX: 1; } }
 
-  .glass { background: hsl(240 10% 6% / 0.3); backdrop-filter: blur(40px); border: 1px solid hsl(0 0% 98% / 0.05); }
+  .glass { background: ${dark ? 'hsl(240 10% 6% / 0.3)' : 'rgba(255,255,255,0.6)'}; backdrop-filter: blur(40px); border: 1px solid ${dark ? 'hsl(0 0% 98% / 0.05)' : 'rgba(0,0,0,0.08)'}; }
   .gradient-text { background: linear-gradient(to right, #D4A843, #c49030); background-size: 200% center; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: gradient-shift 8s ease infinite; }
   
   ::-webkit-scrollbar { width: 8px; }
-  ::-webkit-scrollbar-track { background: hsl(240 10% 4%); }
+  ::-webkit-scrollbar-track { background: ${dark ? 'hsl(240 10% 4%)' : '#e2e8f0'}; }
   ::-webkit-scrollbar-thumb { background: #D4A843; border-radius: 4px; }
 `;
+}
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -71,7 +73,7 @@ export default function HashmarkSolutionUI() {
 
   return (
     <>
-      <style>{styles}</style>
+      <style>{getStyles(dark)}</style>
 
       {/* ── Universal top nav logo ── */}
       <div style={{
@@ -155,7 +157,7 @@ export default function HashmarkSolutionUI() {
               transition={{ delay: 0.3, duration: 0.8 }}
               style={{
                 fontSize: '1.3rem',
-                color: 'hsl(240 5% 65%)',
+                color: dark ? 'hsl(240 5% 65%)' : 'hsl(240 5% 25%)',
                 maxWidth: '700px',
                 margin: '0 auto 3rem',
                 lineHeight: 1.8,
@@ -238,7 +240,7 @@ export default function HashmarkSolutionUI() {
                 style={{
                   padding: '3rem',
                   borderRadius: '12px',
-                  background: 'hsl(240 10% 6% / 0.25)',
+                  background: dark ? 'hsl(240 10% 6% / 0.25)' : 'rgba(0,0,0,0.04)',
                   borderLeft: '3px solid hsl(0 89% 60%)',
                   position: 'relative',
                   overflow: 'hidden'
@@ -262,7 +264,7 @@ export default function HashmarkSolutionUI() {
                   <div style={{ fontWeight: 'bold', color: 'hsl(0 89% 60%)', marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: '0.85rem' }}>
                     Traditional Detection
                   </div>
-                  <h3 style={{ fontSize: '1.8rem', fontWeight: 'bold', marginBottom: '2rem', color: 'hsl(0 0% 98%)' }}>
+                  <h3 style={{ fontSize: '1.8rem', fontWeight: 'bold', marginBottom: '2rem', color: dark ? 'hsl(0 0% 98%)' : 'hsl(240 10% 8%)' }}>
                     An Unwinnable Arms Race
                   </h3>
                   <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
@@ -279,7 +281,7 @@ export default function HashmarkSolutionUI() {
                         whileInView={{ opacity: 1, x: 0 }}
                         transition={{ delay: i * 0.1 }}
                         viewport={{ once: true }}
-                        style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem', fontSize: '1rem', color: 'hsl(240 5% 70%)', lineHeight: 1.6 }}
+                        style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem', fontSize: '1rem', color: dark ? 'hsl(240 5% 70%)' : 'hsl(240 5% 25%)', lineHeight: 1.6 }}
                       >
                         <div style={{ width: '20px', height: '20px', borderRadius: '50%', background: 'hsl(0 89% 60%)', marginTop: '2px', flexShrink: 0 }} />
                         {item}
@@ -299,7 +301,7 @@ export default function HashmarkSolutionUI() {
                 style={{
                   padding: '3rem',
                   borderRadius: '12px',
-                  background: 'hsl(240 10% 6% / 0.25)',
+                  background: dark ? 'hsl(240 10% 6% / 0.25)' : 'rgba(0,0,0,0.04)',
                   borderLeft: '3px solid #D4A843',
                   position: 'relative',
                   overflow: 'hidden'
@@ -323,7 +325,7 @@ export default function HashmarkSolutionUI() {
                   <div style={{ fontWeight: 'bold', color: '#D4A843', marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: '0.85rem' }}>
                     Hashmark Protocol
                   </div>
-                  <h3 style={{ fontSize: '1.8rem', fontWeight: 'bold', marginBottom: '2rem', color: 'hsl(0 0% 98%)' }}>
+                  <h3 style={{ fontSize: '1.8rem', fontWeight: 'bold', marginBottom: '2rem', color: dark ? 'hsl(0 0% 98%)' : 'hsl(240 10% 8%)' }}>
                     Proof at Moment of Creation
                   </h3>
                   <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
@@ -340,7 +342,7 @@ export default function HashmarkSolutionUI() {
                         whileInView={{ opacity: 1, x: 0 }}
                         transition={{ delay: i * 0.1 }}
                         viewport={{ once: true }}
-                        style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem', fontSize: '1rem', color: 'hsl(240 5% 70%)', lineHeight: 1.6 }}
+                        style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem', fontSize: '1rem', color: dark ? 'hsl(240 5% 70%)' : 'hsl(240 5% 25%)', lineHeight: 1.6 }}
                       >
                         <div style={{ width: '20px', height: '20px', borderRadius: '50%', background: '#D4A843', marginTop: '2px', flexShrink: 0 }} />
                         {item}
@@ -389,8 +391,8 @@ export default function HashmarkSolutionUI() {
                     style={{
                       padding: '2rem',
                       borderRadius: '12px',
-                      background: hoveredCard === i ? 'hsl(240 10% 6% / 0.4)' : 'hsl(240 10% 6% / 0.2)',
-                      border: hoveredCard === i ? '2px solid #D4A843' : '1px solid hsl(0 0% 98% / 0.05)',
+                      background: hoveredCard === i ? (dark ? 'hsl(240 10% 6% / 0.4)' : 'rgba(0,0,0,0.07)') : (dark ? 'hsl(240 10% 6% / 0.2)' : 'rgba(0,0,0,0.04)'),
+                      border: hoveredCard === i ? '2px solid #D4A843' : (dark ? '1px solid hsl(0 0% 98% / 0.05)' : '1px solid rgba(0,0,0,0.08)'),
                       cursor: 'pointer',
                       transition: 'all 0.3s',
                       transform: hoveredCard === i ? 'translateY(-12px)' : 'translateY(0)',
@@ -421,10 +423,10 @@ export default function HashmarkSolutionUI() {
                       >
                         <item.icon size={40} style={{ color: '#D4A843' }} />
                       </motion.div>
-                      <h4 style={{ fontSize: '1.15rem', fontWeight: 'bold', marginBottom: '0.5rem', color: 'hsl(0 0% 98%)' }}>
+                      <h4 style={{ fontSize: '1.15rem', fontWeight: 'bold', marginBottom: '0.5rem', color: dark ? 'hsl(0 0% 98%)' : 'hsl(240 10% 8%)' }}>
                         {item.title}
                       </h4>
-                      <p style={{ fontSize: '0.9rem', color: 'hsl(240 5% 65%)', lineHeight: 1.5 }}>
+                      <p style={{ fontSize: '0.9rem', color: dark ? 'hsl(240 5% 65%)' : 'hsl(240 5% 25%)', lineHeight: 1.5 }}>
                         {item.desc}
                       </p>
                     </div>
@@ -509,8 +511,8 @@ export default function HashmarkSolutionUI() {
                   style={{
                     padding: '2.5rem',
                     borderRadius: '12px',
-                    background: 'hsl(240 10% 6% / 0.25)',
-                    border: '1px solid hsl(0 0% 98% / 0.05)',
+                    background: dark ? 'hsl(240 10% 6% / 0.25)' : 'rgba(0,0,0,0.04)',
+                    border: dark ? '1px solid hsl(0 0% 98% / 0.05)' : '1px solid rgba(0,0,0,0.08)',
                     position: 'relative',
                     overflow: 'hidden'
                   }}
@@ -563,7 +565,7 @@ export default function HashmarkSolutionUI() {
                             alignItems: 'center',
                             gap: '0.75rem',
                             fontSize: '0.95rem',
-                            color: 'hsl(240 5% 65%)'
+                            color: dark ? 'hsl(240 5% 65%)' : 'hsl(240 5% 25%)'
                           }}
                         >
                           <motion.div
@@ -627,8 +629,8 @@ export default function HashmarkSolutionUI() {
                   style={{
                     padding: '2.2rem',
                     borderRadius: '12px',
-                    background: 'hsl(240 10% 6% / 0.25)',
-                    border: '1px solid hsl(0 0% 98% / 0.05)',
+                    background: dark ? 'hsl(240 10% 6% / 0.25)' : 'rgba(0,0,0,0.04)',
+                    border: dark ? '1px solid hsl(0 0% 98% / 0.05)' : '1px solid rgba(0,0,0,0.08)',
                     position: 'relative',
                     overflow: 'hidden'
                   }}
@@ -652,10 +654,10 @@ export default function HashmarkSolutionUI() {
                     <motion.div style={{ fontSize: '2rem', marginBottom: '1rem' }} whileHover={{ scale: 1.2 }}>
                       <useCase.icon size={32} style={{ color: '#D4A843' }} />
                     </motion.div>
-                    <h4 style={{ fontSize: '1.15rem', fontWeight: 'bold', marginBottom: '0.75rem', color: 'hsl(0 0% 98%)' }}>
+                    <h4 style={{ fontSize: '1.15rem', fontWeight: 'bold', marginBottom: '0.75rem', color: dark ? 'hsl(0 0% 98%)' : 'hsl(240 10% 8%)' }}>
                       {useCase.title}
                     </h4>
-                    <p style={{ fontSize: '0.9rem', color: 'hsl(240 5% 65%)', lineHeight: 1.6 }}>
+                    <p style={{ fontSize: '0.9rem', color: dark ? 'hsl(240 5% 65%)' : 'hsl(240 5% 25%)', lineHeight: 1.6 }}>
                       {useCase.desc}
                     </p>
                   </div>
@@ -675,7 +677,7 @@ export default function HashmarkSolutionUI() {
         style={{
           paddingTop: '3rem', paddingBottom: '3rem', paddingLeft: '1.5rem', paddingRight: '1.5rem',
           borderTop: '1px solid rgba(212,168,67,0.1)',
-          backgroundColor: 'rgba(8,8,8,0.8)',
+          backgroundColor: dark ? 'rgba(8,8,8,0.8)' : 'rgba(248,250,252,0.9)',
           backdropFilter: 'blur(40px)',
           textAlign: 'center',
           position: 'relative',
@@ -688,11 +690,11 @@ export default function HashmarkSolutionUI() {
         <motion.p
           animate={{ opacity: [0.55, 1, 0.55] }}
           transition={{ duration: 3, repeat: Infinity }}
-          style={{ fontSize: '0.8rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'hsl(240 5% 50%)', marginBottom: '2rem' }}
+          style={{ fontSize: '0.8rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: dark ? 'hsl(240 5% 50%)' : 'hsl(240 5% 25%)', marginBottom: '2rem' }}
         >
           Proving reality on Base L2.
         </motion.p>
-        <p style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.18)' }}>
+        <p style={{ fontSize: '0.72rem', color: dark ? 'rgba(255,255,255,0.18)' : 'rgba(0,0,0,0.45)' }}>
           © {new Date().getFullYear()} Hashmark Protocol. All rights reserved.
         </p>
       </motion.footer>
