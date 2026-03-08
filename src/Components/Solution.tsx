@@ -17,7 +17,7 @@ const styles = `
   html { scroll-behavior: smooth; }
 
   body {
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'DM Mono', 'DM Sans', sans-serif;
     background-color: hsl(240 10% 4%);
     color: hsl(0 0% 98%);
     overflow-x: hidden;
@@ -25,7 +25,7 @@ const styles = `
 
   h1, h2, h3, h4, h5, h6 { font-family: 'Rajdhani', sans-serif; letter-spacing: 0.05em; }
 
-  @keyframes glow-pulse { 0%, 100% { box-shadow: 0 0 20px hsl(190 90% 50% / 0.3); } 50% { box-shadow: 0 0 40px hsl(190 90% 50% / 0.6); } }
+  @keyframes glow-pulse { 0%, 100% { box-shadow: 0 0 20px rgba(212, 168, 67, 0.3); } 50% { box-shadow: 0 0 40px rgba(212, 168, 67, 0.6); } }
   @keyframes gradient-shift { 0%, 100% { background-position: 0% center; } 50% { background-position: 100% center; } }
   @keyframes aurora { 0%, 100% { opacity: 0.2; } 50% { opacity: 0.5; } }
   @keyframes slide-up { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
@@ -33,11 +33,11 @@ const styles = `
   @keyframes line-expand { from { scaleX: 0; } to { scaleX: 1; } }
 
   .glass { background: hsl(240 10% 6% / 0.3); backdrop-filter: blur(40px); border: 1px solid hsl(0 0% 98% / 0.05); }
-  .gradient-text { background: linear-gradient(to right, hsl(190 90% 50%), hsl(280 90% 60%)); background-size: 200% center; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: gradient-shift 8s ease infinite; }
+  .gradient-text { background: linear-gradient(to right, #D4A843, #c49030); background-size: 200% center; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: gradient-shift 8s ease infinite; }
   
   ::-webkit-scrollbar { width: 8px; }
   ::-webkit-scrollbar-track { background: hsl(240 10% 4%); }
-  ::-webkit-scrollbar-thumb { background: hsl(190 90% 50%); border-radius: 4px; }
+  ::-webkit-scrollbar-thumb { background: #D4A843; border-radius: 4px; }
 `;
 
 const containerVariants = {
@@ -87,7 +87,7 @@ export default function HashmarkSolutionUI() {
               left: '5%',
               width: '600px',
               height: '600px',
-              background: 'radial-gradient(circle, hsl(190 90% 50% / 0.15), transparent)',
+              background: 'radial-gradient(circle, rgba(212, 168, 67, 0.15), transparent)',
               borderRadius: '50%',
               filter: 'blur(120px)'
             }}
@@ -101,7 +101,7 @@ export default function HashmarkSolutionUI() {
               right: '5%',
               width: '500px',
               height: '500px',
-              background: 'radial-gradient(circle, hsl(280 90% 60% / 0.1), transparent)',
+              background: 'radial-gradient(circle, rgba(212, 168, 67, 0.1), transparent)',
               borderRadius: '50%',
               filter: 'blur(120px)'
             }}
@@ -153,12 +153,12 @@ export default function HashmarkSolutionUI() {
               style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}
             >
             <motion.button
-                whileHover={{ scale: 1.05, boxShadow: '0 0 40px hsl(190 90% 50% / 0.4)' }}
+                whileHover={{ scale: 1.05, boxShadow: '0 0 40px rgba(212, 168, 67, 0.4)' }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => navigate('/about')}
                 style={{
                   padding: '1rem 2.5rem',
-                  background: 'linear-gradient(135deg, hsl(190 90% 50%), hsl(190 85% 45%))',
+                  background: 'linear-gradient(135deg, #D4A843, #c49030)',
                   border: 'none',
                   borderRadius: '8px',
                   color: 'hsl(240 10% 4%)',
@@ -173,15 +173,15 @@ export default function HashmarkSolutionUI() {
                 Learn How It Works <ArrowRight size={18} />
               </motion.button>
               <motion.button
-                whileHover={{ scale: 1.05, boxShadow: '0 0 40px hsl(190 90% 50% / 0.2)' }}
+                whileHover={{ scale: 1.05, boxShadow: '0 0 40px rgba(212, 168, 67, 0.2)' }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => navigate('/white')}
                 style={{
                   padding: '1rem 2.5rem',
                   background: 'transparent',
-                  border: '2px solid hsl(190 90% 50%)',
+                  border: '2px solid #D4A843',
                   borderRadius: '8px',
-                  color: 'hsl(190 90% 50%)',
+                  color: '#D4A843',
                   fontWeight: '600',
                   fontSize: '1rem',
                   cursor: 'pointer'
@@ -240,7 +240,7 @@ export default function HashmarkSolutionUI() {
                   }}
                 />
                 <div style={{ position: 'relative', zIndex: 2 }}>
-                  <div style={{ fontSize: '1.2rem', fontWeight: 'bold', color: 'hsl(0 89% 60%)', marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: '0.85rem' }}>
+                  <div style={{ fontWeight: 'bold', color: 'hsl(0 89% 60%)', marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: '0.85rem' }}>
                     Traditional Detection
                   </div>
                   <h3 style={{ fontSize: '1.8rem', fontWeight: 'bold', marginBottom: '2rem', color: 'hsl(0 0% 98%)' }}>
@@ -281,7 +281,7 @@ export default function HashmarkSolutionUI() {
                   padding: '3rem',
                   borderRadius: '12px',
                   background: 'hsl(240 10% 6% / 0.25)',
-                  borderLeft: '3px solid hsl(190 90% 50%)',
+                  borderLeft: '3px solid #D4A843',
                   position: 'relative',
                   overflow: 'hidden'
                 }}
@@ -295,13 +295,13 @@ export default function HashmarkSolutionUI() {
                     right: '-10%',
                     width: '400px',
                     height: '400px',
-                    background: 'radial-gradient(circle, hsl(190 90% 50% / 0.08), transparent)',
+                    background: 'radial-gradient(circle, rgba(212, 168, 67, 0.08), transparent)',
                     borderRadius: '50%',
                     filter: 'blur(100px)'
                   }}
                 />
                 <div style={{ position: 'relative', zIndex: 2 }}>
-                  <div style={{ fontSize: '1.2rem', fontWeight: 'bold', color: 'hsl(190 90% 50%)', marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: '0.85rem' }}>
+                  <div style={{ fontWeight: 'bold', color: '#D4A843', marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: '0.85rem' }}>
                     Hashmark Protocol
                   </div>
                   <h3 style={{ fontSize: '1.8rem', fontWeight: 'bold', marginBottom: '2rem', color: 'hsl(0 0% 98%)' }}>
@@ -323,7 +323,7 @@ export default function HashmarkSolutionUI() {
                         viewport={{ once: true }}
                         style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem', fontSize: '1rem', color: 'hsl(240 5% 70%)', lineHeight: 1.6 }}
                       >
-                        <div style={{ width: '20px', height: '20px', borderRadius: '50%', background: 'hsl(190 90% 50%)', marginTop: '2px', flexShrink: 0 }} />
+                        <div style={{ width: '20px', height: '20px', borderRadius: '50%', background: '#D4A843', marginTop: '2px', flexShrink: 0 }} />
                         {item}
                       </motion.li>
                     ))}
@@ -371,7 +371,7 @@ export default function HashmarkSolutionUI() {
                       padding: '2rem',
                       borderRadius: '12px',
                       background: hoveredCard === i ? 'hsl(240 10% 6% / 0.4)' : 'hsl(240 10% 6% / 0.2)',
-                      border: hoveredCard === i ? '2px solid hsl(190 90% 50%)' : '1px solid hsl(0 0% 98% / 0.05)',
+                      border: hoveredCard === i ? '2px solid #D4A843' : '1px solid hsl(0 0% 98% / 0.05)',
                       cursor: 'pointer',
                       transition: 'all 0.3s',
                       transform: hoveredCard === i ? 'translateY(-12px)' : 'translateY(0)',
@@ -386,13 +386,13 @@ export default function HashmarkSolutionUI() {
                         right: 0,
                         width: '250px',
                         height: '250px',
-                        background: 'radial-gradient(circle, hsl(190 90% 50% / 0.1), transparent)',
+                        background: 'radial-gradient(circle, rgba(212, 168, 67, 0.1), transparent)',
                         borderRadius: '50%',
                         filter: 'blur(80px)'
                       }}
                     />
                     <div style={{ position: 'relative', zIndex: 2 }}>
-                      <div style={{ color: 'hsl(190 90% 50%)', fontSize: '0.75rem', fontWeight: 'bold', marginBottom: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.15em' }}>
+                      <div style={{ color: '#D4A843', fontSize: '0.75rem', fontWeight: 'bold', marginBottom: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.15em' }}>
                         Step {item.step}
                       </div>
                       <motion.div
@@ -400,7 +400,7 @@ export default function HashmarkSolutionUI() {
                         animate={{ y: hoveredCard === i ? [0, -8, 0] : 0 }}
                         transition={{ duration: 0.4 }}
                       >
-                        <item.icon size={40} style={{ color: 'hsl(190 90% 50%)' }} />
+                        <item.icon size={40} style={{ color: '#D4A843' }} />
                       </motion.div>
                       <h4 style={{ fontSize: '1.15rem', fontWeight: 'bold', marginBottom: '0.5rem', color: 'hsl(0 0% 98%)' }}>
                         {item.title}
@@ -426,7 +426,7 @@ export default function HashmarkSolutionUI() {
                       display: 'flex',
                       justifyContent: 'center',
                       alignItems: 'center',
-                      color: 'hsl(190 90% 50%)',
+                      color: '#D4A843',
                       fontSize: '1.5rem',
                       opacity: 0.6
                     }}
@@ -468,19 +468,19 @@ export default function HashmarkSolutionUI() {
                   icon: Fingerprint,
                   title: 'Identity Registry',
                   items: ['DID Creation & Management', 'Device Registration & Binding', 'Granular Permission Control', 'Public Key Infrastructure'],
-                  color: 'hsl(190 90% 50%)'
+                  color: '#D4A843'
                 },
                 {
                   icon: Database,
                   title: 'Content Registry',
                   items: ['Immutable Content Hashes', 'Metadata & Timestamp Records', 'Geospatial Binding Data', 'Duplicate Prevention'],
-                  color: 'hsl(280 90% 60%)'
+                  color: '#c49030'
                 },
                 {
                   icon: Scale,
                   title: 'Context Court',
                   items: ['Decentralized Dispute System', 'Juror Staking & Selection', 'Economic Security Model', 'Escalation Mechanism'],
-                  color: 'hsl(190 90% 50%)'
+                  color: '#D4A843'
                 }
               ].map((pillar, i) => (
                 <motion.div
@@ -611,7 +611,7 @@ export default function HashmarkSolutionUI() {
                     position: 'relative',
                     overflow: 'hidden'
                   }}
-                  whileHover={{ y: -8, border: '1px solid hsl(190 90% 50% / 0.3)' }}
+                  whileHover={{ y: -8, border: '1px solid rgba(212, 168, 67, 0.3)' }}
                 >
                   <motion.div
                     animate={{ opacity: [0.08, 0.2, 0.08] }}
@@ -622,14 +622,14 @@ export default function HashmarkSolutionUI() {
                       right: 0,
                       width: '200px',
                       height: '200px',
-                      background: 'radial-gradient(circle, hsl(190 90% 50% / 0.08), transparent)',
+                      background: 'radial-gradient(circle, rgba(212, 168, 67, 0.08), transparent)',
                       borderRadius: '50%',
                       filter: 'blur(80px)'
                     }}
                   />
                   <div style={{ position: 'relative', zIndex: 2 }}>
                     <motion.div style={{ fontSize: '2rem', marginBottom: '1rem' }} whileHover={{ scale: 1.2 }}>
-                      <useCase.icon size={32} style={{ color: 'hsl(190 90% 50%)' }} />
+                      <useCase.icon size={32} style={{ color: '#D4A843' }} />
                     </motion.div>
                     <h4 style={{ fontSize: '1.15rem', fontWeight: 'bold', marginBottom: '0.75rem', color: 'hsl(0 0% 98%)' }}>
                       {useCase.title}

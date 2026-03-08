@@ -57,7 +57,8 @@ function Btn({children,onClick,disabled=false,gold=false,outline=false,red=false
     gap:8,padding:"11px 22px",borderRadius:12,border:"none",cursor:disabled?"not-allowed":"pointer",
     fontFamily:"'DM Mono',monospace",fontSize:11,letterSpacing:"0.16em",textTransform:"uppercase",
     transition:"all 0.25s ease",overflow:"hidden",opacity:disabled?0.35:1,
-    width:full?"100%":"auto",flexShrink:0,
+    width:full?"100%":"auto",
+    ...(style && !("flex" in style) ? {flexShrink:0} : {}),
     ...style,
   };
   let specific:React.CSSProperties={};

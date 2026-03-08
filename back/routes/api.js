@@ -164,11 +164,10 @@ router.get("/info", (_req, res) => {
 router.get("/stats", async (_req, res) => {
   const { contract, provider } = getContractSetup();
   try {
-    const filter = contract.filters.VideoAuthenticated();
-    const [events, blockNumber] = await Promise.all([
-      contract.queryFilter(filter),
-      provider.getBlockNumber(),
-    ]);
+    const blockNumber = await provider.getBlockNumber();
+    const fromBlock   = Math.max(0, blockNumber - 9_900);
+    const filter      = contract.filters.VideoAuthenticated();
+    const events      = await contract.queryFilter(filter, fromBlock, "latest");
 
     const recent = events
       .slice(-5)
@@ -182,13 +181,9 @@ router.get("/stats", async (_req, res) => {
       }));
 
     res.json({ totalProofs: events.length, recentProofs: recent, blockNumber: Number(blockNumber) });
-  } catch (err) {
-    // Node not running — return safe zeros rather than an error
-    if (err.code === "ECONNREFUSED" || err.code === "SERVER_ERROR") {
-      return res.json({ totalProofs: 0, recentProofs: [], blockNumber: 0, offline: true });
-    }
-    console.error("[stats]", err);
-    res.status(500).json({ error: err.message });
+  } catch (_err) {
+    // Any RPC/network failure → return graceful zeros
+    res.json({ totalProofs: 0, recentProofs: [], blockNumber: 0, offline: true });
   }
 });
 
@@ -200,11 +195,10 @@ router.get("/recent", async (req, res) => {
   const limit = Math.min(Number(req.query.limit) || 20, 100);
   const { contract, provider } = getContractSetup();
   try {
-    const filter = contract.filters.VideoAuthenticated();
-    const [events, blockNumber] = await Promise.all([
-      contract.queryFilter(filter),
-      provider.getBlockNumber(),
-    ]);
+    const blockNumber = await provider.getBlockNumber();
+    const fromBlock   = Math.max(0, blockNumber - 9_900);
+    const filter      = contract.filters.VideoAuthenticated();
+    const events      = await contract.queryFilter(filter, fromBlock, "latest");
 
     const proofs = events
       .slice(-limit)
@@ -218,12 +212,9 @@ router.get("/recent", async (req, res) => {
       }));
 
     res.json({ proofs, total: events.length, blockNumber: Number(blockNumber) });
-  } catch (err) {
-    if (err.code === "ECONNREFUSED" || err.code === "SERVER_ERROR") {
-      return res.json({ proofs: [], total: 0, blockNumber: 0, offline: true });
-    }
-    console.error("[recent]", err);
-    res.status(500).json({ error: err.message });
+  } catch (_err) {
+    // Any RPC/network failure → return graceful zeros
+    res.json({ proofs: [], total: 0, blockNumber: 0, offline: true });
   }
 });
 

@@ -72,8 +72,8 @@ const PANELS = [
   },
 ];
 
-const NAV = ["", "", "Whitepaper"];
-const NAV_ROUTES: Record<string, string> = { Whitepaper: "/white" };
+const NAV = ["Solutions", "About", "Whitepaper"];
+const NAV_ROUTES: Record<string, string> = { Whitepaper: "/white", Solutions: "/solution", About: "/about" };
 
 /* ─── Auto-cycling video + mock colour wave when no src ─── */
 function PanelVideo({

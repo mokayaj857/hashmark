@@ -13,10 +13,10 @@ const styles = `
   :root {
     --font-display: 'Rajdhani', sans-serif;
     --font-body: 'DM Sans', sans-serif;
-    --background: 240 10% 4%;
+    --background: 240 10% 2%;
     --foreground: 0 0% 98%;
-    --primary: 190 90% 50%;
-    --accent: 280 90% 60%;
+    --primary: 42 61% 55%;
+    --accent: 38 70% 42%;
     --muted: 240 10% 12%;
     --muted-foreground: 240 5% 65%;
     --card: 240 10% 6%;
@@ -24,14 +24,14 @@ const styles = `
   @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-20px); } }
   @keyframes glow-pulse { 0%, 100% { box-shadow: 0 0 20px hsl(var(--primary) / 0.3); } 50% { box-shadow: 0 0 40px hsl(var(--primary) / 0.6); } }
   @keyframes shimmer { 0% { background-position: -1000px 0; } 100% { background-position: 1000px 0; } }
-  @keyframes pulse-ring { 0% { box-shadow: 0 0 0 0 rgba(0, 240, 255, 0.4); } 70% { box-shadow: 0 0 0 20px rgba(0, 240, 255, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 240, 255, 0); } }
+  @keyframes pulse-ring { 0% { box-shadow: 0 0 0 0 rgba(212, 168, 67, 0.4); } 70% { box-shadow: 0 0 0 20px rgba(212, 168, 67, 0); } 100% { box-shadow: 0 0 0 0 rgba(212, 168, 67, 0); } }
   @keyframes rotate-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
   @keyframes blur-in { from { opacity: 0; filter: blur(10px); } to { opacity: 1; filter: blur(0px); } }
   @keyframes gradient-shift { 0%, 100% { background-position: 0% center; } 50% { background-position: 100% center; } }
   @keyframes aurora { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.8; } }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
-  body { font-family: var(--font-body); background-color: hsl(var(--background)); color: hsl(var(--foreground)); overflow-x: hidden; background-image: radial-gradient(circle at 15% 50%, rgba(0, 240, 255, 0.03), transparent 25%), radial-gradient(circle at 85% 30%, rgba(138, 43, 226, 0.04), transparent 25%); background-attachment: fixed; }
+  body { font-family: var(--font-body); background-color: hsl(var(--background)); color: hsl(var(--foreground)); overflow-x: hidden; background-image: radial-gradient(circle at 15% 50%, rgba(212, 168, 67, 0.03), transparent 25%), radial-gradient(circle at 85% 30%, rgba(212, 168, 67, 0.04), transparent 25%); background-attachment: fixed; }
   h1, h2, h3, h4, h5, h6 { font-family: var(--font-display); letter-spacing: 0.05em; }
   .glass-panel { background: hsl(var(--card) / 0.3); backdrop-filter: blur(40px); border: 1px solid hsl(var(--foreground) / 0.05); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); }
   .neon-text { text-shadow: 0 0 15px hsl(var(--primary) / 0.5), 0 0 30px hsl(var(--primary) / 0.3); animation: glow-pulse 3s ease-in-out infinite; }
@@ -158,7 +158,7 @@ export default function HashmarkLanding() {
         <motion.nav initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="glass-panel" style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50, borderLeft: 'none', borderRight: 'none', borderTop: 'none', borderBottom: `1px solid hsl(var(--foreground) / 0.05)`, paddingLeft: '1.5rem', paddingRight: '1.5rem', paddingTop: '1rem', paddingBottom: '1rem', backdropFilter: 'blur(40px)' }}>
           <div style={{ maxWidth: '80rem', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <motion.div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <motion.div style={{ width: '2rem', height: '2rem', borderRadius: '0.25rem', backgroundImage: `linear-gradient(to bottom right, hsl(var(--primary)), hsl(var(--accent)))`, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 0 15px rgba(0, 240, 255, 0.4)' }} className="pulse-ring-animation" whileHover={{ scale: 1.1 }}>
+              <motion.div style={{ width: '2rem', height: '2rem', borderRadius: '0.25rem', backgroundImage: `linear-gradient(to bottom right, hsl(var(--primary)), hsl(var(--accent)))`, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 0 15px rgba(212, 168, 67, 0.4)' }} className="pulse-ring-animation" whileHover={{ scale: 1.1 }}>
                 <Hash style={{ color: `hsl(var(--primary))`, width: '1.25rem', height: '1.25rem' }} />
               </motion.div>
               <motion.span style={{ fontFamily: 'var(--font-display)', fontWeight: 'bold', fontSize: '1.25rem', letterSpacing: '0.05em', backgroundImage: `linear-gradient(to right, hsl(var(--primary)), hsl(var(--accent)))`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }} whileHover={{ scale: 1.05 }}>HASHMARK</motion.span>
@@ -172,7 +172,7 @@ export default function HashmarkLanding() {
         <section style={{ position: 'relative', paddingTop: '10rem', paddingBottom: '5rem', paddingLeft: '1.5rem', paddingRight: '1.5rem', overflow: 'hidden', minHeight: '100vh', display: 'flex', alignItems: 'center' }}>
           <motion.div style={{ y, opacity, scale }} className="w-full">
             <div style={{ maxWidth: '80rem', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 10 }}>
-              <motion.div initial={{ opacity: 0, scale: 0.8, rotate: -10 }} animate={{ opacity: 1, scale: 1, rotate: 0 }} transition={{ duration: 0.8, type: 'spring', bounce: 0.5 }} style={{ display: 'inline-block', marginBottom: '1.5rem', paddingLeft: '1rem', paddingRight: '1rem', paddingTop: '0.375rem', paddingBottom: '0.375rem', borderRadius: '9999px', border: `1px solid hsl(var(--primary) / 0.5)`, backgroundColor: `hsl(var(--primary) / 0.1)`, backdropFilter: 'blur(16px)' }} whileHover={{ scale: 1.1, boxShadow: '0 0 20px rgba(0, 240, 255, 0.4)' }}>
+              <motion.div initial={{ opacity: 0, scale: 0.8, rotate: -10 }} animate={{ opacity: 1, scale: 1, rotate: 0 }} transition={{ duration: 0.8, type: 'spring', bounce: 0.5 }} style={{ display: 'inline-block', marginBottom: '1.5rem', paddingLeft: '1rem', paddingRight: '1rem', paddingTop: '0.375rem', paddingBottom: '0.375rem', borderRadius: '9999px', border: `1px solid hsl(var(--primary) / 0.5)`, backgroundColor: `hsl(var(--primary) / 0.1)`, backdropFilter: 'blur(16px)' }} whileHover={{ scale: 1.1, boxShadow: '0 0 20px rgba(212, 168, 67, 0.4)' }}>
                 <motion.span style={{ fontSize: '0.875rem', fontFamily: 'var(--font-display)', letterSpacing: '0.05em', color: `hsl(var(--primary))`, textTransform: 'uppercase', display: 'flex', alignItems: 'center', gap: '0.5rem' }} animate={{ opacity: [0.5, 1] }} transition={{ duration: 2, repeat: Infinity }}>
                   <Zap style={{ width: '0.75rem', height: '0.75rem' }} />Protocol v1.0 Launching Soon
                 </motion.span>
@@ -255,7 +255,7 @@ function verifyReality(contentHash) {
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '2rem', position: 'relative', marginTop: '5rem' }}>
               {[{ title: 'Capture', desc: 'Hardware TEE signs sensor data instantly', icon: Microscope, color: `hsl(var(--primary))` }, { title: 'Hash', desc: 'Content generates a unique cryptographic CID', icon: Hash, color: `hsl(var(--accent))` }, { title: 'Bind', desc: 'Tied to decentralized identity (DID)', icon: Fingerprint, color: `hsl(var(--primary))` }, { title: 'Anchor', desc: 'State permanently written to Base L2', icon: Network, color: `hsl(var(--accent))` }].map((step, i) => (
                 <motion.div key={i} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-50px' }} transition={{ duration: 0.6, delay: i * 0.15 }} onHoverStart={() => setHoveredCard(i)} onHoverEnd={() => setHoveredCard(null)} style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-                  <motion.div className="glass-panel" style={{ width: '6rem', height: '6rem', borderRadius: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.5rem', position: 'relative', zIndex: 10, boxShadow: '0 0 30px rgba(0, 0, 0, 0.5)' }} whileHover={{ scale: 1.15, boxShadow: '0 0 60px rgba(0, 240, 255, 0.4)' }} animate={hoveredCard === i ? { y: -10 } : { y: 0 }}>
+                  <motion.div className="glass-panel" style={{ width: '6rem', height: '6rem', borderRadius: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.5rem', position: 'relative', zIndex: 10, boxShadow: '0 0 30px rgba(0, 0, 0, 0.5)' }} whileHover={{ scale: 1.15, boxShadow: '0 0 60px rgba(212, 168, 67, 0.4)' }} animate={hoveredCard === i ? { y: -10 } : { y: 0 }}>
                     <motion.div animate={hoveredCard === i ? { rotate: 360 } : { rotate: 0 }} transition={{ duration: 1 }}>
                       <step.icon style={{ width: '2.5rem', height: '2.5rem', color: step.color }} />
                     </motion.div>
