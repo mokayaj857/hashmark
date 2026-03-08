@@ -133,7 +133,7 @@ export default function WhitepaperPage() {
     accentRgb: "212,168,67",
   };
 
-  const navLinks = ["Technology", "Solutions", "About", "Explore"];
+  const navLinks = [ "Solutions", "About"];
 
   return (
     <>
@@ -163,7 +163,7 @@ export default function WhitepaperPage() {
           {/* Right side: nav links + theme toggle */}
           <div style={{ display: "flex", alignItems: "center", gap: 2 }}>
             {navLinks.map((item) => (
-              <Link key={item} to={item === "About" ? "/about" : `/#${item.toLowerCase()}`}
+              <Link key={item} to={item === "About" ? "/about" : item === "Solutions" ? "/solution" : `/#${item.toLowerCase()}`}
                 style={{ color: T.muted, textDecoration: "none", fontSize: 12, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", padding: "6px 12px", borderRadius: 8, transition: "color 0.2s" }}
                 onMouseEnter={e => (e.currentTarget.style.color = T.text)}
                 onMouseLeave={e => (e.currentTarget.style.color = T.muted)}

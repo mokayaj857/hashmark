@@ -1,267 +1,649 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import {
-  Zap, Shield, Lock, Leaf, ChevronRight, Check, X,
-  Layers, Database, Cpu, Code2, Eye, Brain, Coins,
-  TrendingUp, GitBranch, Sparkles, Lightning, Archive
+  Shield, Lock, Database, Zap, CheckCircle2, ArrowRight,
+  Layers, Code2, TrendingUp, BarChart3, GitBranch, Cpu,
+  Key, Network, FileCheck, AlertCircle,
+  Fingerprint, Scale, Newspaper
 } from 'lucide-react';
 
 const styles = `
-  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Courier+Prime:wght@400;700&display=swap');
-  
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Rajdhani:wght@500;600;700&display=swap');
+
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
-  
+
   body {
-    font-family: 'Inter', sans-serif;
-    background: linear-gradient(135deg, #0a0e27 0%, #1a0033 50%, #0f0820 100%);
-    color: #e0e0e0;
+    font-family: 'DM Sans', sans-serif;
+    background-color: hsl(240 10% 4%);
+    color: hsl(0 0% 98%);
     overflow-x: hidden;
-    min-height: 100vh;
   }
 
-  h1, h2, h3, h4, h5, h6 { font-family: 'Space Grotesk', sans-serif; }
+  h1, h2, h3, h4, h5, h6 { font-family: 'Rajdhani', sans-serif; letter-spacing: 0.05em; }
 
-  @keyframes float-up { 0% { transform: translateY(0px); opacity: 0; } 50% { opacity: 1; } 100% { transform: translateY(-20px); opacity: 0; } }
-  @keyframes pulse-glow { 0%, 100% { box-shadow: 0 0 20px rgba(147, 51, 234, 0.3); } 50% { box-shadow: 0 0 60px rgba(147, 51, 234, 0.8); } }
-  @keyframes scan-line { 0% { top: 0%; } 100% { top: 100%; } }
-  @keyframes shimmer { 0% { background-position: -1000px 0; } 100% { background-position: 1000px 0; } }
-  @keyframes rotate-3d { 0% { transform: rotateX(0deg) rotateY(0deg); } 100% { transform: rotateX(360deg) rotateY(360deg); } }
-  @keyframes neon-flicker { 0%, 100% { opacity: 1; text-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff; } 50% { opacity: 0.8; text-shadow: 0 0 20px #00d4ff, 0 0 40px #00d4ff; } }
-  @keyframes blob-morph { 0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; } 50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; } }
-  @keyframes glow-border { 0%, 100% { border-color: rgba(147, 51, 234, 0.5); } 50% { border-color: rgba(0, 212, 255, 0.8); } }
-  @keyframes float-orbit { 0% { transform: translateX(0px) translateY(0px) scale(1); } 25% { transform: translateX(30px) translateY(-30px) scale(1.1); } 50% { transform: translateX(0px) translateY(-60px) scale(1); } 75% { transform: translateX(-30px) translateY(-30px) scale(0.9); } 100% { transform: translateX(0px) translateY(0px) scale(1); } }
+  @keyframes glow-pulse { 0%, 100% { box-shadow: 0 0 20px hsl(190 90% 50% / 0.3); } 50% { box-shadow: 0 0 40px hsl(190 90% 50% / 0.6); } }
+  @keyframes gradient-shift { 0%, 100% { background-position: 0% center; } 50% { background-position: 100% center; } }
+  @keyframes aurora { 0%, 100% { opacity: 0.2; } 50% { opacity: 0.5; } }
+  @keyframes slide-up { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes float-subtle { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-15px); } }
+  @keyframes line-expand { from { scaleX: 0; } to { scaleX: 1; } }
 
-  .glass { background: rgba(10, 14, 39, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(147, 51, 234, 0.2); }
-  .glow-text { color: #00d4ff; text-shadow: 0 0 20px #00d4ff, 0 0 40px rgba(147, 51, 234, 0.5); }
-  .gradient-text { background: linear-gradient(90deg, #00d4ff, #9333ea, #00d4ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-  .accent { color: #9333ea; }
-
-  ::-webkit-scrollbar { width: 10px; }
-  ::-webkit-scrollbar-track { background: rgba(147, 51, 234, 0.1); }
-  ::-webkit-scrollbar-thumb { background: #9333ea; border-radius: 5px; }
-  ::-webkit-scrollbar-thumb:hover { background: #00d4ff; }
+  .glass { background: hsl(240 10% 6% / 0.3); backdrop-filter: blur(40px); border: 1px solid hsl(0 0% 98% / 0.05); }
+  .gradient-text { background: linear-gradient(to right, hsl(190 90% 50%), hsl(280 90% 60%)); background-size: 200% center; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: gradient-shift 8s ease infinite; }
+  
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: hsl(240 10% 4%); }
+  ::-webkit-scrollbar-thumb { background: hsl(190 90% 50%); border-radius: 4px; }
 `;
 
-export default function HashmarkSolution() {
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.12, delayChildren: 0.15 }
+  }
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 40 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.7, type: 'spring', damping: 30, stiffness: 100 }
+  }
+};
+
+export default function HashmarkSolutionUI() {
   const { scrollYProgress } = useScroll();
   const [activeTab, setActiveTab] = useState(0);
-  const [expandedFeature, setExpandedFeature] = useState(null);
+  const [hoveredCard, setHoveredCard] = useState(null);
+  const navigate = useNavigate();
 
-  const yBg = useTransform(scrollYProgress, [0, 1], [0, 300]);
+  const yOffset = useTransform(scrollYProgress, [0, 1], [0, 400]);
 
   return (
     <>
       <style>{styles}</style>
-      <div style={{ background: 'linear-gradient(135deg, #0a0e27 0%, #1a0033 50%, #0f0820 100%)', minHeight: '100vh', position: 'relative', overflow: 'hidden' }}>
-        
-        {/* Animated Background Elements */}
+      <div style={{
+        background: 'linear-gradient(135deg, hsl(240 10% 4%) 0%, hsl(240 5% 8%) 100%)',
+        minHeight: '100vh',
+        position: 'relative',
+        overflow: 'hidden',
+        padding: '8rem 2rem'
+      }}>
+
+        {/* Animated Background */}
         <motion.div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0, pointerEvents: 'none' }}>
-          <motion.div animate={{ blob_morph: 'blob-morph' }} style={{ position: 'absolute', top: '10%', left: '10%', width: '500px', height: '500px', background: 'radial-gradient(circle, rgba(147, 51, 234, 0.2), transparent)', borderRadius: '60% 40% 30% 70%', filter: 'blur(80px)', animation: 'blob-morph 8s infinite' }} />
-          <motion.div animate={{ blob_morph: 'blob-morph' }} style={{ position: 'absolute', bottom: '10%', right: '10%', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(0, 212, 255, 0.15), transparent)', borderRadius: '30% 60% 70% 40%', filter: 'blur(80px)', animation: 'blob-morph 10s infinite 2s' }} />
+          <motion.div
+            animate={{ scale: [1, 1.1, 1], opacity: [0.15, 0.25, 0.15] }}
+            transition={{ duration: 12, repeat: Infinity }}
+            style={{
+              position: 'absolute',
+              top: '5%',
+              left: '5%',
+              width: '600px',
+              height: '600px',
+              background: 'radial-gradient(circle, hsl(190 90% 50% / 0.15), transparent)',
+              borderRadius: '50%',
+              filter: 'blur(120px)'
+            }}
+          />
+          <motion.div
+            animate={{ scale: [1.1, 1, 1.1], opacity: [0.1, 0.2, 0.1] }}
+            transition={{ duration: 14, repeat: Infinity, delay: 2 }}
+            style={{
+              position: 'absolute',
+              bottom: '5%',
+              right: '5%',
+              width: '500px',
+              height: '500px',
+              background: 'radial-gradient(circle, hsl(280 90% 60% / 0.1), transparent)',
+              borderRadius: '50%',
+              filter: 'blur(120px)'
+            }}
+          />
         </motion.div>
 
-        {/* Navigation */}
-        <motion.nav initial={{ y: -100 }} animate={{ y: 0 }} transition={{ duration: 0.5 }} style={{ position: 'sticky', top: 0, zIndex: 40, backdropFilter: 'blur(10px)', borderBottom: '1px solid rgba(147, 51, 234, 0.2)', padding: '1rem 2rem' }}>
-          <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <motion.div whileHover={{ scale: 1.05 }} style={{ fontSize: '1.5rem', fontWeight: 'bold' }} className="gradient-text">
-              ⚡ HASHMARK
-            </motion.div>
-            <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} style={{ padding: '0.5rem 1.5rem', background: 'rgba(147, 51, 234, 0.2)', border: '1px solid #9333ea', borderRadius: '8px', color: '#00d4ff', cursor: 'pointer', fontWeight: 'bold' }}>
-              Scroll to Top
-            </motion.button>
-          </div>
-        </motion.nav>
+        {/* Content */}
+        <div style={{ position: 'relative', zIndex: 10, maxWidth: '1300px', margin: '0 auto' }}>
 
-        {/* Hero Section */}
-        <section style={{ position: 'relative', zIndex: 10, minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '4rem 2rem', textAlign: 'center' }}>
-          <motion.div style={{ y: yBg }} />
-          
-          <div style={{ maxWidth: '1000px' }}>
-            <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
-              <motion.div style={{ fontSize: '4rem', fontWeight: 'bold', marginBottom: '2rem', lineHeight: 1.2 }} className="gradient-text">
-                <motion.span animate={{ opacity: [0.5, 1] }} transition={{ duration: 2, repeat: Infinity }}>
-                  Stop Chasing Fakes.
-                </motion.span>
+          {/* Hero Section */}
+          <motion.section style={{ marginBottom: '10rem', textAlign: 'center' }}>
+            <motion.div
+              initial={{ opacity: 0, y: 60 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1 }}
+            >
+              <h1 style={{
+                fontSize: 'clamp(2.5rem, 8vw, 5rem)',
+                fontWeight: 'bold',
+                marginBottom: '1.5rem',
+                lineHeight: 1.1
+              }} className="gradient-text">
+                Stop Detecting.
                 <br />
-                <motion.span animate={{ textShadow: ['0 0 20px rgba(0,212,255,0.3)', '0 0 60px rgba(147,51,234,0.8)', '0 0 20px rgba(0,212,255,0.3)'] }} transition={{ duration: 3, repeat: Infinity }} style={{ color: '#00d4ff' }}>
-                  Prove Reality.
-                </motion.span>
-              </motion.div>
+                Start Proving.
+              </h1>
             </motion.div>
 
-            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3, duration: 0.8 }} style={{ fontSize: '1.25rem', color: '#b0b0b0', marginBottom: '3rem', lineHeight: 1.8 }}>
-              Cryptographic proof of origin. Hardware-rooted trust. Immutable ledger on Base blockchain.
-              <br />
-              <span className="glow-text">Content authenticated the moment it's created.</span>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3, duration: 0.8 }}
+              style={{
+                fontSize: '1.3rem',
+                color: 'hsl(240 5% 65%)',
+                maxWidth: '700px',
+                margin: '0 auto 3rem',
+                lineHeight: 1.8,
+                fontWeight: 300
+              }}
+            >
+              Hashmark replaces reactive detection with proactive authenticity. Hardware-rooted cryptographic proof at the moment of creation. Immutable. Verifiable. Forever.
             </motion.p>
 
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }} style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-              <motion.button whileHover={{ scale: 1.05, boxShadow: '0 0 40px rgba(147, 51, 234, 0.6)' }} whileTap={{ scale: 0.95 }} style={{ padding: '1rem 2.5rem', background: 'linear-gradient(90deg, #9333ea, #7c3aed)', border: 'none', borderRadius: '12px', color: 'white', fontWeight: 'bold', fontSize: '1rem', cursor: 'pointer' }}>
-                Learn More ✨
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6 }}
+              style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}
+            >
+            <motion.button
+                whileHover={{ scale: 1.05, boxShadow: '0 0 40px hsl(190 90% 50% / 0.4)' }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => navigate('/about')}
+                style={{
+                  padding: '1rem 2.5rem',
+                  background: 'linear-gradient(135deg, hsl(190 90% 50%), hsl(190 85% 45%))',
+                  border: 'none',
+                  borderRadius: '8px',
+                  color: 'hsl(240 10% 4%)',
+                  fontWeight: '600',
+                  fontSize: '1rem',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem'
+                }}
+              >
+                Learn How It Works <ArrowRight size={18} />
               </motion.button>
-              <motion.button whileHover={{ scale: 1.05, boxShadow: '0 0 40px rgba(0, 212, 255, 0.6)' }} whileTap={{ scale: 0.95 }} style={{ padding: '1rem 2.5rem', background: 'transparent', border: '2px solid #00d4ff', borderRadius: '12px', color: '#00d4ff', fontWeight: 'bold', fontSize: '1rem', cursor: 'pointer' }}>
-                Documentation →
+              <motion.button
+                whileHover={{ scale: 1.05, boxShadow: '0 0 40px hsl(190 90% 50% / 0.2)' }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => navigate('/white')}
+                style={{
+                  padding: '1rem 2.5rem',
+                  background: 'transparent',
+                  border: '2px solid hsl(190 90% 50%)',
+                  borderRadius: '8px',
+                  color: 'hsl(190 90% 50%)',
+                  fontWeight: '600',
+                  fontSize: '1rem',
+                  cursor: 'pointer'
+                }}
+              >
+                Documentation
               </motion.button>
             </motion.div>
-          </div>
+          </motion.section>
 
-          {/* Floating Elements */}
-          <motion.div animate={{ float_orbit: 'float-orbit' }} style={{ position: 'absolute', right: '5%', top: '20%', opacity: 0.6, animation: 'float-orbit 6s ease-in-out infinite' }}>
-            <motion.div style={{ width: '80px', height: '80px', background: 'radial-gradient(circle, rgba(147, 51, 234, 0.6), transparent)', borderRadius: '50%', border: '2px solid #9333ea', boxShadow: '0 0 30px rgba(147, 51, 234, 0.4)' }} />
-          </motion.div>
-        </section>
-
-        {/* The Problem vs Solution */}
-        <section style={{ position: 'relative', zIndex: 10, padding: '4rem 2rem', background: 'rgba(0, 0, 0, 0.3)' }}>
-          <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-            <motion.h2 initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} style={{ textAlign: 'center', fontSize: '2.5rem', marginBottom: '4rem' }} className="gradient-text">
-              The Paradigm Shift
+          {/* Problem vs Solution */}
+          <motion.section style={{ marginBottom: '10rem' }}>
+            <motion.h2
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              style={{
+                fontSize: 'clamp(2rem, 6vw, 2.8rem)',
+                textAlign: 'center',
+                marginBottom: '4rem',
+                fontWeight: 'bold'
+              }} className="gradient-text"
+            >
+              The Fundamental Problem
             </motion.h2>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(450px, 1fr))', gap: '2rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(380px, 1fr))', gap: '3rem' }}>
               {/* Problem */}
-              <motion.div initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }} className="glass" style={{ padding: '2.5rem', borderRadius: '16px', borderLeft: '4px solid #ff4444', background: 'rgba(255, 68, 68, 0.05)' }}>
-                <div style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '1.5rem', color: '#ff6b6b' }}>❌ Traditional Detection</div>
-                <ul style={{ listStyle: 'none', gap: '1rem', display: 'flex', flexDirection: 'column' }}>
-                  {['AI detectors become obsolete weekly', 'Metadata easily stripped', 'Software vs Software arms race', 'No verifiable proof', 'Detection = Guesswork'].map((item, i) => (
-                    <motion.li key={i} initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.1 }} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', fontSize: '1rem' }}>
-                      <X style={{ color: '#ff6b6b', width: '20px' }} /> {item}
-                    </motion.li>
-                  ))}
-                </ul>
+              <motion.div
+                initial={{ opacity: 0, x: -80 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8 }}
+                className="glass"
+                style={{
+                  padding: '3rem',
+                  borderRadius: '12px',
+                  background: 'hsl(240 10% 6% / 0.25)',
+                  borderLeft: '3px solid hsl(0 89% 60%)',
+                  position: 'relative',
+                  overflow: 'hidden'
+                }}
+              >
+                <motion.div
+                  animate={{ opacity: [0.1, 0.3, 0.1] }}
+                  transition={{ duration: 6, repeat: Infinity }}
+                  style={{
+                    position: 'absolute',
+                    top: '-50%',
+                    right: '-10%',
+                    width: '400px',
+                    height: '400px',
+                    background: 'radial-gradient(circle, hsl(0 89% 60% / 0.08), transparent)',
+                    borderRadius: '50%',
+                    filter: 'blur(100px)'
+                  }}
+                />
+                <div style={{ position: 'relative', zIndex: 2 }}>
+                  <div style={{ fontSize: '1.2rem', fontWeight: 'bold', color: 'hsl(0 89% 60%)', marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: '0.85rem' }}>
+                    Traditional Detection
+                  </div>
+                  <h3 style={{ fontSize: '1.8rem', fontWeight: 'bold', marginBottom: '2rem', color: 'hsl(0 0% 98%)' }}>
+                    An Unwinnable Arms Race
+                  </h3>
+                  <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+                    {[
+                      'Detection algorithms obsolete in weeks',
+                      'AI generation outpaces detection',
+                      'No verifiable proof, only guesswork',
+                      'Metadata easily stripped by platforms',
+                      'Reactive, not proactive'
+                    ].map((item, i) => (
+                      <motion.li
+                        key={i}
+                        initial={{ opacity: 0, x: -20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ delay: i * 0.1 }}
+                        viewport={{ once: true }}
+                        style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem', fontSize: '1rem', color: 'hsl(240 5% 70%)', lineHeight: 1.6 }}
+                      >
+                        <div style={{ width: '20px', height: '20px', borderRadius: '50%', background: 'hsl(0 89% 60%)', marginTop: '2px', flexShrink: 0 }} />
+                        {item}
+                      </motion.li>
+                    ))}
+                  </ul>
+                </div>
               </motion.div>
 
               {/* Solution */}
-              <motion.div initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }} className="glass" style={{ padding: '2.5rem', borderRadius: '16px', borderLeft: '4px solid #00d4ff', background: 'rgba(0, 212, 255, 0.05)' }}>
-                <div style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '1.5rem', color: '#00d4ff' }}>✓ Hashmark Protocol</div>
-                <ul style={{ listStyle: 'none', gap: '1rem', display: 'flex', flexDirection: 'column' }}>
-                  {['Proof at capture time', 'Hardware-rooted trust', 'Cryptographic signatures', 'Immutable on-chain proof', 'Mathematically verified'].map((item, i) => (
-                    <motion.li key={i} initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.1 }} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', fontSize: '1rem' }}>
-                      <Check style={{ color: '#00d4ff', width: '20px' }} /> {item}
-                    </motion.li>
-                  ))}
-                </ul>
+              <motion.div
+                initial={{ opacity: 0, x: 80 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8 }}
+                className="glass"
+                style={{
+                  padding: '3rem',
+                  borderRadius: '12px',
+                  background: 'hsl(240 10% 6% / 0.25)',
+                  borderLeft: '3px solid hsl(190 90% 50%)',
+                  position: 'relative',
+                  overflow: 'hidden'
+                }}
+              >
+                <motion.div
+                  animate={{ opacity: [0.1, 0.3, 0.1] }}
+                  transition={{ duration: 6, repeat: Infinity, delay: 1 }}
+                  style={{
+                    position: 'absolute',
+                    top: '-50%',
+                    right: '-10%',
+                    width: '400px',
+                    height: '400px',
+                    background: 'radial-gradient(circle, hsl(190 90% 50% / 0.08), transparent)',
+                    borderRadius: '50%',
+                    filter: 'blur(100px)'
+                  }}
+                />
+                <div style={{ position: 'relative', zIndex: 2 }}>
+                  <div style={{ fontSize: '1.2rem', fontWeight: 'bold', color: 'hsl(190 90% 50%)', marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: '0.85rem' }}>
+                    Hashmark Protocol
+                  </div>
+                  <h3 style={{ fontSize: '1.8rem', fontWeight: 'bold', marginBottom: '2rem', color: 'hsl(0 0% 98%)' }}>
+                    Proof at Moment of Creation
+                  </h3>
+                  <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+                    {[
+                      'Cryptographic proof at capture time',
+                      'Hardware-rooted signatures (TEE)',
+                      'Immutable on-chain anchoring',
+                      'Mathematically verified forever',
+                      'Proactive, not reactive'
+                    ].map((item, i) => (
+                      <motion.li
+                        key={i}
+                        initial={{ opacity: 0, x: 20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ delay: i * 0.1 }}
+                        viewport={{ once: true }}
+                        style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem', fontSize: '1rem', color: 'hsl(240 5% 70%)', lineHeight: 1.6 }}
+                      >
+                        <div style={{ width: '20px', height: '20px', borderRadius: '50%', background: 'hsl(190 90% 50%)', marginTop: '2px', flexShrink: 0 }} />
+                        {item}
+                      </motion.li>
+                    ))}
+                  </ul>
+                </div>
               </motion.div>
             </div>
-          </div>
-        </section>
+          </motion.section>
 
-        {/* How It Works - Interactive Timeline */}
-        <section style={{ position: 'relative', zIndex: 10, padding: '4rem 2rem' }}>
-          <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-            <motion.h2 initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} style={{ textAlign: 'center', fontSize: '2.5rem', marginBottom: '4rem' }} className="gradient-text">
+          {/* The Proof Chain */}
+          <motion.section style={{ marginBottom: '10rem' }}>
+            <motion.h2
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              style={{
+                fontSize: 'clamp(2rem, 6vw, 2.8rem)',
+                textAlign: 'center',
+                marginBottom: '4rem',
+                fontWeight: 'bold'
+              }} className="gradient-text"
+            >
               The Proof Chain
             </motion.h2>
 
             <div style={{ position: 'relative' }}>
-              {/* Timeline steps */}
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1rem', position: 'relative' }}>
+              {/* Steps */}
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1.5rem', marginBottom: '3rem' }}>
                 {[
-                  { num: '01', icon: '📸', title: 'Capture', desc: 'Device captures content in real-time' },
-                  { num: '02', icon: '🔐', title: 'Hash & Sign', desc: 'Cryptographic signature in TEE' },
-                  { num: '03', icon: '⛓️', title: 'Anchor', desc: 'Immutable record on Base' },
-                  { num: '04', icon: '✅', title: 'Verify', desc: 'Globally verifiable forever' }
-                ].map((step, i) => (
-                  <motion.div key={i} initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.15, duration: 0.5 }} className="glass" style={{ padding: '2rem', borderRadius: '16px', textAlign: 'center', background: 'rgba(147, 51, 234, 0.1)', border: '2px solid rgba(147, 51, 234, 0.3)', animation: `glow-border 3s ease-in-out infinite` }}>
-                    <motion.div style={{ fontSize: '3.5rem', marginBottom: '0.5rem' }} animate={{ y: [0, -10, 0] }} transition={{ duration: 2, repeat: Infinity }}>
-                      {step.icon}
-                    </motion.div>
-                    <div style={{ color: '#9333ea', fontSize: '0.85rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>STEP {step.num}</div>
-                    <div style={{ fontSize: '1.25rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>{step.title}</div>
-                    <div style={{ fontSize: '0.85rem', color: '#b0b0b0' }}>{step.desc}</div>
+                  { step: 1, title: 'Device Captures', desc: 'Media captured with hardware timestamp', icon: Code2 },
+                  { step: 2, title: 'TEE Signs', desc: 'Cryptographic signature in secure enclave', icon: Lock },
+                  { step: 3, title: 'DID Binds', desc: 'Identity linked to device with rights', icon: Key },
+                  { step: 4, title: 'Base Anchors', desc: 'Immutable record on blockchain', icon: Database }
+                ].map((item, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.15, duration: 0.6 }}
+                    onHoverStart={() => setHoveredCard(i)}
+                    onHoverEnd={() => setHoveredCard(null)}
+                    className="glass"
+                    style={{
+                      padding: '2rem',
+                      borderRadius: '12px',
+                      background: hoveredCard === i ? 'hsl(240 10% 6% / 0.4)' : 'hsl(240 10% 6% / 0.2)',
+                      border: hoveredCard === i ? '2px solid hsl(190 90% 50%)' : '1px solid hsl(0 0% 98% / 0.05)',
+                      cursor: 'pointer',
+                      transition: 'all 0.3s',
+                      transform: hoveredCard === i ? 'translateY(-12px)' : 'translateY(0)',
+                      position: 'relative'
+                    }}
+                  >
+                    <motion.div
+                      animate={{ opacity: hoveredCard === i ? 0.4 : 0.1 }}
+                      style={{
+                        position: 'absolute',
+                        top: 0,
+                        right: 0,
+                        width: '250px',
+                        height: '250px',
+                        background: 'radial-gradient(circle, hsl(190 90% 50% / 0.1), transparent)',
+                        borderRadius: '50%',
+                        filter: 'blur(80px)'
+                      }}
+                    />
+                    <div style={{ position: 'relative', zIndex: 2 }}>
+                      <div style={{ color: 'hsl(190 90% 50%)', fontSize: '0.75rem', fontWeight: 'bold', marginBottom: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.15em' }}>
+                        Step {item.step}
+                      </div>
+                      <motion.div
+                        style={{ fontSize: '2.5rem', marginBottom: '1rem' }}
+                        animate={{ y: hoveredCard === i ? [0, -8, 0] : 0 }}
+                        transition={{ duration: 0.4 }}
+                      >
+                        <item.icon size={40} style={{ color: 'hsl(190 90% 50%)' }} />
+                      </motion.div>
+                      <h4 style={{ fontSize: '1.15rem', fontWeight: 'bold', marginBottom: '0.5rem', color: 'hsl(0 0% 98%)' }}>
+                        {item.title}
+                      </h4>
+                      <p style={{ fontSize: '0.9rem', color: 'hsl(240 5% 65%)', lineHeight: 1.5 }}>
+                        {item.desc}
+                      </p>
+                    </div>
                   </motion.div>
                 ))}
               </div>
 
-              {/* Connecting line */}
-              <motion.svg style={{ position: 'absolute', top: '60px', left: 0, width: '100%', height: '4px' }} initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ delay: 0.5 }}>
-                <motion.line x1="0" y1="0" x2="100%" y2="0" stroke="#9333ea" strokeWidth="2" initial={{ strokeDasharray: 1000 }} whileInView={{ strokeDasharray: 0 }} transition={{ duration: 1.5 }} />
-              </motion.svg>
-            </div>
-          </div>
-        </section>
-
-        {/* Core Technology */}
-        <section style={{ position: 'relative', zIndex: 10, padding: '4rem 2rem', background: 'rgba(0, 0, 0, 0.3)' }}>
-          <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-            <motion.h2 initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} style={{ textAlign: 'center', fontSize: '2.5rem', marginBottom: '4rem' }} className="gradient-text">
-              Tech Stack
-            </motion.h2>
-
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem' }}>
-              {[
-                { icon: Shield, title: 'Hardware TEE', desc: 'Secure Enclave / Android TEE - signatures never exported', color: '#00d4ff' },
-                { icon: Archive, title: 'Identity Registry', desc: 'DIDs with granular rights & device registration', color: '#9333ea' },
-                { icon: Database, title: 'Content Registry', desc: 'Immutable ledger of all proven content', color: '#00d4ff' },
-                { icon: GitBranch, title: 'Context Court', desc: 'Decentralized dispute resolution system', color: '#9333ea' },
-                { icon: Coins, title: 'Economic Security', desc: 'Deposits, slashing, and incentive alignment', color: '#00d4ff' },
-                { icon: Lightning, title: 'Base L2', desc: 'Fast, scalable settlement layer', color: '#9333ea' }
-              ].map((tech, i) => (
-                <motion.div key={i} initial={{ opacity: 0, scale: 0.8 }} whileInView={{ opacity: 1, scale: 1 }} transition={{ delay: i * 0.1 }} onHoverStart={() => setExpandedFeature(i)} onHoverEnd={() => setExpandedFeature(null)} className="glass" style={{ padding: '2rem', borderRadius: '16px', background: expandedFeature === i ? `rgba(${tech.color === '#00d4ff' ? '0, 212, 255' : '147, 51, 234'}, 0.15)` : 'rgba(147, 51, 234, 0.1)', border: `2px solid ${expandedFeature === i ? tech.color : 'rgba(147, 51, 234, 0.3)'}`, cursor: 'pointer', transition: 'all 0.3s', transform: expandedFeature === i ? 'translateY(-10px)' : 'translateY(0)' }}>
-                  <motion.div animate={{ rotate: expandedFeature === i ? 360 : 0 }} transition={{ duration: 0.6 }} style={{ fontSize: '2.5rem', marginBottom: '1rem', color: tech.color }}>
-                    <tech.icon size={32} />
+              {/* Arrow indicators */}
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1.5rem' }}>
+                {[0, 1, 2].map((i) => (
+                  <motion.div
+                    key={`arrow-${i}`}
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.15 + 0.5 }}
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      color: 'hsl(190 90% 50%)',
+                      fontSize: '1.5rem',
+                      opacity: 0.6
+                    }}
+                  >
+                    <motion.div animate={{ x: [0, 8, 0] }} transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.2 }}>
+                      →
+                    </motion.div>
                   </motion.div>
-                  <div style={{ fontSize: '1.2rem', fontWeight: 'bold', marginBottom: '0.5rem', color: tech.color }}>{tech.title}</div>
-                  <div style={{ fontSize: '0.9rem', color: '#b0b0b0' }}>{tech.desc}</div>
-                </motion.div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
-        </section>
+          </motion.section>
 
-        {/* Use Cases */}
-        <section style={{ position: 'relative', zIndex: 10, padding: '4rem 2rem' }}>
-          <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-            <motion.h2 initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} style={{ textAlign: 'center', fontSize: '2.5rem', marginBottom: '4rem' }} className="gradient-text">
-              Real-World Impact
+          {/* Architecture Pillars */}
+          <motion.section style={{ marginBottom: '10rem' }}>
+            <motion.h2
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              style={{
+                fontSize: 'clamp(2rem, 6vw, 2.8rem)',
+                textAlign: 'center',
+                marginBottom: '4rem',
+                fontWeight: 'bold'
+              }} className="gradient-text"
+            >
+              Three Pillars
             </motion.h2>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
+            <motion.div
+              style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '2.5rem' }}
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: '-100px' }}
+            >
               {[
-                { title: '📰 Verified Journalism', impact: 'Prove field media is authentic and unmanipulated' },
-                { title: '⚖️ Legal Evidence', impact: 'Court-admissible proof of content integrity' },
-                { title: '🎨 Creator Protection', impact: 'Prove human-made art before AI scraping' },
-                { title: '🔬 Scientific Data', impact: 'Immutable dataset provenance and integrity' },
-                { title: '🏦 Insurance Claims', impact: 'Cryptographic evidence for claim verification' },
-                { title: '🌍 OSINT Ops', impact: 'Unimpeachable location & time proof' }
-              ].map((useCase, i) => (
-                <motion.div key={i} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }} className="glass" style={{ padding: '2rem', borderRadius: '16px', background: 'rgba(0, 212, 255, 0.05)', border: '1px solid rgba(0, 212, 255, 0.2)', overflow: 'hidden', position: 'relative' }}>
-                  <motion.div animate={{ x: ['-100%', '100%'] }} transition={{ duration: 3, repeat: Infinity }} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '2px', background: 'linear-gradient(90deg, transparent, #00d4ff, transparent)' }} />
-                  <div style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '0.75rem' }}>{useCase.title}</div>
-                  <div style={{ color: '#b0b0b0' }}>{useCase.impact}</div>
+                {
+                  icon: Fingerprint,
+                  title: 'Identity Registry',
+                  items: ['DID Creation & Management', 'Device Registration & Binding', 'Granular Permission Control', 'Public Key Infrastructure'],
+                  color: 'hsl(190 90% 50%)'
+                },
+                {
+                  icon: Database,
+                  title: 'Content Registry',
+                  items: ['Immutable Content Hashes', 'Metadata & Timestamp Records', 'Geospatial Binding Data', 'Duplicate Prevention'],
+                  color: 'hsl(280 90% 60%)'
+                },
+                {
+                  icon: Scale,
+                  title: 'Context Court',
+                  items: ['Decentralized Dispute System', 'Juror Staking & Selection', 'Economic Security Model', 'Escalation Mechanism'],
+                  color: 'hsl(190 90% 50%)'
+                }
+              ].map((pillar, i) => (
+                <motion.div
+                  key={i}
+                  variants={itemVariants}
+                  className="glass"
+                  style={{
+                    padding: '2.5rem',
+                    borderRadius: '12px',
+                    background: 'hsl(240 10% 6% / 0.25)',
+                    border: '1px solid hsl(0 0% 98% / 0.05)',
+                    position: 'relative',
+                    overflow: 'hidden'
+                  }}
+                  whileHover={{ y: -10, border: `2px solid ${pillar.color}` }}
+                >
+                  <motion.div
+                    animate={{ opacity: [0.1, 0.25, 0.1] }}
+                    transition={{ duration: 8, repeat: Infinity, delay: i * 1.5 }}
+                    style={{
+                      position: 'absolute',
+                      top: '-40%',
+                      right: '-20%',
+                      width: '350px',
+                      height: '350px',
+                      background: `radial-gradient(circle, ${pillar.color} / 0.08, transparent)`,
+                      borderRadius: '50%',
+                      filter: 'blur(100px)'
+                    }}
+                  />
+                  <div style={{ position: 'relative', zIndex: 2 }}>
+                    <motion.div
+                      style={{
+                        width: '56px',
+                        height: '56px',
+                        background: `${pillar.color}15`,
+                        border: `2px solid ${pillar.color}`,
+                        borderRadius: '10px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        marginBottom: '1.5rem'
+                      }}
+                      whileHover={{ scale: 1.15, rotate: 10 }}
+                    >
+                      <pillar.icon size={28} style={{ color: pillar.color }} />
+                    </motion.div>
+                    <h3 style={{ fontSize: '1.4rem', fontWeight: 'bold', marginBottom: '1.5rem', color: pillar.color }}>
+                      {pillar.title}
+                    </h3>
+                    <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.9rem' }}>
+                      {pillar.items.map((item, idx) => (
+                        <motion.li
+                          key={idx}
+                          initial={{ opacity: 0, x: -10 }}
+                          whileInView={{ opacity: 1, x: 0 }}
+                          transition={{ delay: idx * 0.08 }}
+                          viewport={{ once: true }}
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '0.75rem',
+                            fontSize: '0.95rem',
+                            color: 'hsl(240 5% 65%)'
+                          }}
+                        >
+                          <motion.div
+                            style={{
+                              width: '6px',
+                              height: '6px',
+                              borderRadius: '50%',
+                              background: pillar.color,
+                              opacity: 0.6
+                            }}
+                            animate={{ scale: [1, 1.3, 1] }}
+                            transition={{ duration: 2, repeat: Infinity, delay: idx * 0.2 }}
+                          />
+                          {item}
+                        </motion.li>
+                      ))}
+                    </ul>
+                  </div>
                 </motion.div>
               ))}
-            </div>
-          </div>
-        </section>
+            </motion.div>
+          </motion.section>
 
-        {/* CTA Section */}
-        <section style={{ position: 'relative', zIndex: 10, padding: '4rem 2rem', textAlign: 'center' }}>
-          <motion.div initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} transition={{ duration: 0.6 }} className="glass" style={{ maxWidth: '800px', margin: '0 auto', padding: '3rem', borderRadius: '20px', background: 'rgba(147, 51, 234, 0.2)', border: '2px solid #9333ea', boxShadow: '0 0 60px rgba(147, 51, 234, 0.3)' }}>
-            <motion.h2 animate={{ textShadow: ['0 0 20px rgba(0,212,255,0.3)', '0 0 60px rgba(147,51,234,0.8)', '0 0 20px rgba(0,212,255,0.3)'] }} transition={{ duration: 3, repeat: Infinity }} style={{ fontSize: '2rem', marginBottom: '1rem' }} className="gradient-text">
-              Ready to Prove Reality?
+          {/* Use Cases */}
+          <motion.section style={{ marginBottom: '6rem' }}>
+            <motion.h2
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              style={{
+                fontSize: 'clamp(2rem, 6vw, 2.8rem)',
+                textAlign: 'center',
+                marginBottom: '4rem',
+                fontWeight: 'bold'
+              }} className="gradient-text"
+            >
+              Real-World Applications
             </motion.h2>
-            <p style={{ fontSize: '1.1rem', color: '#b0b0b0', marginBottom: '2rem' }}>
-              Join the ledger revolution. Authentication matters. Reality matters.
-            </p>
-            <motion.button whileHover={{ scale: 1.05, boxShadow: '0 0 40px rgba(147, 51, 234, 0.6)' }} whileTap={{ scale: 0.95 }} style={{ padding: '1rem 3rem', background: 'linear-gradient(90deg, #9333ea, #7c3aed)', border: 'none', borderRadius: '12px', color: 'white', fontWeight: 'bold', fontSize: '1.1rem', cursor: 'pointer' }}>
-              Join Waitlist → Prove Reality
-            </motion.button>
-          </motion.div>
-        </section>
 
-        {/* Footer */}
-        <motion.footer initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} style={{ position: 'relative', zIndex: 10, padding: '3rem 2rem', borderTop: '1px solid rgba(147, 51, 234, 0.2)', textAlign: 'center', color: '#7c7c7c', marginTop: '4rem' }}>
-          <p style={{ marginBottom: '1rem' }}>
-            © 2024 Hashmark Protocol. Proving reality on Base L2.
-          </p>
-          <p style={{ fontSize: '0.9rem' }}>
-            Built with cryptography. Powered by blockchain. Secured by hardware.
-          </p>
-        </motion.footer>
+            <motion.div
+              style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem' }}
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: '-100px' }}
+            >
+              {[
+                { icon: Newspaper, title: 'Journalism & OSINT', desc: 'Prove field media authenticity and location with cryptographic proof.' },
+                { icon: Shield, title: 'Legal & Insurance', desc: 'Court-admissible evidence where tampering is mathematically impossible.' },
+                { icon: CheckCircle2, title: 'Creator Protection', desc: 'Artists prove human-made work before AI scraping and deepfakes.' },
+                { icon: BarChart3, title: 'Scientific Data', desc: 'Datasets anchored at collection for immutable research integrity.' },
+                { icon: AlertCircle, title: 'Risk Management', desc: 'Insurance & compliance with cryptographic proof of origin.' },
+                { icon: TrendingUp, title: 'Institutional Trust', desc: 'Governments, institutions use Hashmark as authenticity standard.' }
+              ].map((useCase, i) => (
+                <motion.div
+                  key={i}
+                  variants={itemVariants}
+                  className="glass"
+                  style={{
+                    padding: '2.2rem',
+                    borderRadius: '12px',
+                    background: 'hsl(240 10% 6% / 0.25)',
+                    border: '1px solid hsl(0 0% 98% / 0.05)',
+                    position: 'relative',
+                    overflow: 'hidden'
+                  }}
+                  whileHover={{ y: -8, border: '1px solid hsl(190 90% 50% / 0.3)' }}
+                >
+                  <motion.div
+                    animate={{ opacity: [0.08, 0.2, 0.08] }}
+                    transition={{ duration: 6, repeat: Infinity, delay: i * 0.4 }}
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      right: 0,
+                      width: '200px',
+                      height: '200px',
+                      background: 'radial-gradient(circle, hsl(190 90% 50% / 0.08), transparent)',
+                      borderRadius: '50%',
+                      filter: 'blur(80px)'
+                    }}
+                  />
+                  <div style={{ position: 'relative', zIndex: 2 }}>
+                    <motion.div style={{ fontSize: '2rem', marginBottom: '1rem' }} whileHover={{ scale: 1.2 }}>
+                      <useCase.icon size={32} style={{ color: 'hsl(190 90% 50%)' }} />
+                    </motion.div>
+                    <h4 style={{ fontSize: '1.15rem', fontWeight: 'bold', marginBottom: '0.75rem', color: 'hsl(0 0% 98%)' }}>
+                      {useCase.title}
+                    </h4>
+                    <p style={{ fontSize: '0.9rem', color: 'hsl(240 5% 65%)', lineHeight: 1.6 }}>
+                      {useCase.desc}
+                    </p>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+          </motion.section>
+
+        </div>
       </div>
     </>
   );
