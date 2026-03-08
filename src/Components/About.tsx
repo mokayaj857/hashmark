@@ -8,20 +8,11 @@ import {
   Zap, ArrowRight, CheckCircle2, Loader2
 } from 'lucide-react';
 import Footer from './Footer';
+import HashmarkLogo from './HashmarkLogo';
+import { useTheme } from '../context/ThemeContext';
 
-const styles = `
+const baseStyles = `
   @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Rajdhani:wght@500;600;700&display=swap');
-  :root {
-    --font-display: 'Rajdhani', sans-serif;
-    --font-body: 'DM Sans', sans-serif;
-    --background: 240 10% 2%;
-    --foreground: 0 0% 98%;
-    --primary: 42 61% 55%;
-    --accent: 38 70% 42%;
-    --muted: 240 10% 12%;
-    --muted-foreground: 240 5% 65%;
-    --card: 240 10% 6%;
-  }
   @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-20px); } }
   @keyframes glow-pulse { 0%, 100% { box-shadow: 0 0 20px hsl(var(--primary) / 0.3); } 50% { box-shadow: 0 0 40px hsl(var(--primary) / 0.6); } }
   @keyframes shimmer { 0% { background-position: -1000px 0; } 100% { background-position: 1000px 0; } }
@@ -32,7 +23,7 @@ const styles = `
   @keyframes aurora { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.8; } }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
-  body { font-family: var(--font-body); background-color: hsl(var(--background)); color: hsl(var(--foreground)); overflow-x: hidden; background-image: radial-gradient(circle at 15% 50%, rgba(212, 168, 67, 0.03), transparent 25%), radial-gradient(circle at 85% 30%, rgba(212, 168, 67, 0.04), transparent 25%); background-attachment: fixed; }
+  body { font-family: var(--font-body); background-color: hsl(var(--background)); color: hsl(var(--foreground)); overflow-x: hidden; background-image: radial-gradient(circle at 15% 50%, rgba(212, 168, 67, 0.03), transparent 25%), radial-gradient(circle at 85% 30%, rgba(212, 168, 67, 0.04), transparent 25%); background-attachment: fixed; transition: background-color 0.3s, color 0.3s; }
   h1, h2, h3, h4, h5, h6 { font-family: var(--font-display); letter-spacing: 0.05em; }
   .glass-panel { background: hsl(var(--card) / 0.3); backdrop-filter: blur(40px); border: 1px solid hsl(var(--foreground) / 0.05); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); }
   .neon-text { text-shadow: 0 0 15px hsl(var(--primary) / 0.5), 0 0 30px hsl(var(--primary) / 0.3); animation: glow-pulse 3s ease-in-out infinite; }
@@ -45,6 +36,31 @@ const styles = `
   ::-webkit-scrollbar-track { background: hsl(var(--background)); }
   ::-webkit-scrollbar-thumb { background: hsl(var(--primary) / 0.4); border-radius: 4px; }
 `;
+
+function getThemeVars(dark: boolean) {
+  return `
+    :root {
+      --font-display: 'Rajdhani', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+      --primary: 42 61% 55%;
+      --accent: 38 70% 42%;
+      ${dark ? `
+      --background: 240 10% 2%;
+      --foreground: 0 0% 98%;
+      --muted: 240 10% 12%;
+      --muted-foreground: 240 5% 65%;
+      --card: 240 10% 6%;
+      ` : `
+      --background: 0 0% 97%;
+      --foreground: 240 10% 8%;
+      --muted: 240 5% 90%;
+      --muted-foreground: 240 5% 40%;
+      --card: 0 0% 100%;
+      `}
+    }
+  `;
+}
+
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -142,6 +158,7 @@ function WaitlistForm() {
 }
 
 export default function HashmarkLanding() {
+  const { dark, toggleDark } = useTheme();
   const { scrollYProgress } = useScroll();
   const y = useTransform(scrollYProgress, [0, 1], [0, 250]);
   const opacity = useTransform(scrollYProgress, [0, 0.3], [1, 0.3]);
@@ -152,21 +169,23 @@ export default function HashmarkLanding() {
 
   return (
     <>
-      <style>{styles}</style>
+      <style>{getThemeVars(dark) + baseStyles}</style>
       <main style={{ minHeight: '100vh', position: 'relative', overflowX: 'hidden' }}>
         <GlowBackground />
         
         <motion.nav initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="glass-panel" style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50, borderLeft: 'none', borderRight: 'none', borderTop: 'none', borderBottom: `1px solid hsl(var(--foreground) / 0.05)`, paddingLeft: '1.5rem', paddingRight: '1.5rem', paddingTop: '1rem', paddingBottom: '1rem', backdropFilter: 'blur(40px)' }}>
           <div style={{ maxWidth: '80rem', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <motion.div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <motion.div style={{ width: '2rem', height: '2rem', borderRadius: '0.25rem', backgroundImage: `linear-gradient(to bottom right, hsl(var(--primary)), hsl(var(--accent)))`, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 0 15px rgba(212, 168, 67, 0.4)' }} className="pulse-ring-animation" whileHover={{ scale: 1.1 }}>
-                <Hash style={{ color: `hsl(var(--primary))`, width: '1.25rem', height: '1.25rem' }} />
-              </motion.div>
-              <motion.span style={{ fontFamily: 'var(--font-display)', fontWeight: 'bold', fontSize: '1.25rem', letterSpacing: '0.05em', backgroundImage: `linear-gradient(to right, hsl(var(--primary)), hsl(var(--accent)))`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }} whileHover={{ scale: 1.05 }}>HASHMARK</motion.span>
+            <motion.div style={{ cursor: 'pointer' }} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <HashmarkLogo color={dark ? '#ffffff' : '#0a0a0a'} />
             </motion.div>
-            <motion.button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} style={{ fontSize: '0.875rem', fontFamily: 'var(--font-display)', textTransform: 'uppercase', letterSpacing: '0.05em', color: `hsl(var(--muted-foreground))`, background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem' }} whileHover={{ scale: 1.05, color: `hsl(var(--primary))` }} whileTap={{ scale: 0.95 }}>
-              <span>Access Waitlist</span><ArrowRight style={{ width: '1rem', height: '1rem' }} />
-            </motion.button>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+              <button onClick={toggleDark} aria-label="Toggle theme" style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '7px 14px', borderRadius: 99, cursor: 'pointer', border: dark ? '1.5px solid rgba(212,168,67,0.6)' : '1.5px solid rgba(0,0,0,0.2)', background: dark ? 'rgba(212,168,67,0.12)' : 'rgba(0,0,0,0.06)', transition: 'background 0.3s, border-color 0.3s' }}>
+                {dark ? '☀️' : '🌙'}<span style={{ fontSize: 11, fontWeight: 600, color: dark ? '#D4A843' : '#334155' }}>{dark ? 'Light' : 'Dark'}</span>
+              </button>
+              <motion.button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} style={{ fontSize: '0.875rem', fontFamily: 'var(--font-display)', textTransform: 'uppercase', letterSpacing: '0.05em', color: `hsl(var(--muted-foreground))`, background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem' }} whileHover={{ scale: 1.05, color: `hsl(var(--primary))` }} whileTap={{ scale: 0.95 }}>
+                <span>Access Waitlist</span><ArrowRight style={{ width: '1rem', height: '1rem' }} />
+              </motion.button>
+            </div>
           </div>
         </motion.nav>
 
@@ -295,7 +314,9 @@ function verifyReality(contentHash) {
           </div>
         </section>
 
-        <Footer />
+        <div style={{ '--bg': 'hsl(240,10%,2%)' } as React.CSSProperties}>
+          <Footer />
+        </div>
 
         <section style={{ paddingTop: '8rem', paddingBottom: '8rem', paddingLeft: '1.5rem', paddingRight: '1.5rem', position: 'relative', zIndex: 10 }}>
           <div style={{ maxWidth: '80rem', margin: '0 auto' }}>
@@ -319,13 +340,8 @@ function verifyReality(contentHash) {
         </section>
 
         <motion.footer style={{ paddingTop: '3rem', paddingBottom: '3rem', paddingLeft: '1.5rem', paddingRight: '1.5rem', borderTop: `1px solid hsl(var(--foreground) / 0.05)`, position: 'relative', zIndex: 10, backgroundColor: `hsl(var(--background) / 0.6)`, backdropFilter: 'blur(40px)', textAlign: 'center' }} initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
-          <motion.div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', marginBottom: '1.5rem' }} whileHover={{ scale: 1.1 }}>
-            <motion.div animate={{ rotate: 360 }} transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}>
-              <Hash style={{ color: `hsl(var(--primary))`, width: '1.5rem', height: '1.5rem' }} />
-            </motion.div>
-            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 'bold', fontSize: '1.5rem', letterSpacing: '0.05em', backgroundImage: `linear-gradient(to right, hsl(var(--primary)), hsl(var(--accent)))`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
-              HASHMARK
-            </span>
+          <motion.div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.5rem' }} whileHover={{ scale: 1.06 }}>
+            <HashmarkLogo />
           </motion.div>
           <motion.p style={{ color: `hsl(var(--muted-foreground))`, fontSize: '0.875rem', fontFamily: 'var(--font-display)', letterSpacing: '0.05em', textTransform: 'uppercase' }} animate={{ opacity: [0.6, 1] }} transition={{ duration: 2, repeat: Infinity }}>
             Proving reality on Base L2.

@@ -2,6 +2,7 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import Footer from "./Footer";
 import { getStats } from "../api";
+import { useTheme } from "../context/ThemeContext";
 
 /* ─────────────────────────────────────────────────────────────────────────────
    PANEL DATA
@@ -524,7 +525,7 @@ export default function HashmarkPage() {
   const [autoIndex, setAutoIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [dark, setDark] = useState(true);
+  const { dark, toggleDark } = useTheme();
   const [totalProofs, setTotalProofs] = useState<number | null>(null);
   const autoRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -741,7 +742,7 @@ export default function HashmarkPage() {
 
               {/* ── Theme toggle pill ── */}
               <button
-                onClick={() => setDark(d => !d)}
+                onClick={toggleDark}
                 aria-label="Toggle theme"
                 title={dark ? "Switch to light mode" : "Switch to dark mode"}
                 style={{
@@ -812,7 +813,7 @@ export default function HashmarkPage() {
           {isMobile && (
             <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
               <button
-                onClick={() => setDark(d => !d)}
+                onClick={toggleDark}
                 aria-label="Toggle theme"
                 style={{
                   display: "flex", alignItems: "center", gap: 5,

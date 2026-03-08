@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import Footer from "./Footer";
+import { useTheme } from "../context/ThemeContext";
 
 const sections = [
   {
@@ -105,21 +106,7 @@ const sections = [
 ];
 
 export default function WhitepaperPage() {
-  const [dark, setDark] = useState(true);
-
-  /* Sync dark class on <html> so other components stay consistent */
-  useEffect(() => {
-    document.documentElement.classList.toggle("dark", dark);
-  }, [dark]);
-
-  /* React if an external component (e.g. another page's ThemeToggle) changes the class */
-  useEffect(() => {
-    const observer = new MutationObserver(() => {
-      setDark(document.documentElement.classList.contains("dark"));
-    });
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
-    return () => observer.disconnect();
-  }, []);
+  const { dark, toggleDark } = useTheme();
 
   /* ── Design tokens matching Home.tsx ── */
   const T = {
@@ -176,7 +163,7 @@ export default function WhitepaperPage() {
 
             {/* Theme toggle — identical style to Home.tsx */}
             <button
-              onClick={() => setDark(d => !d)}
+              onClick={toggleDark}
               aria-label="Toggle theme"
               style={{ display: "flex", alignItems: "center", gap: 7, padding: "7px 14px", borderRadius: 99, cursor: "pointer", border: dark ? "1.5px solid rgba(212,168,67,0.6)" : "1.5px solid rgba(0,0,0,0.2)", background: dark ? "rgba(212,168,67,0.12)" : "rgba(0,0,0,0.06)", transition: "background 0.3s, border-color 0.3s, transform 0.2s", marginLeft: 8 }}
               onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.transform = "scale(1.06)"; }}

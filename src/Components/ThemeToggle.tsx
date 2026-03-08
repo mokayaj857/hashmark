@@ -1,17 +1,11 @@
-import { useState, useEffect } from "react";
+import { useTheme } from '../context/ThemeContext';
 
 export default function ThemeToggle() {
-  const [dark, setDark] = useState(() =>
-    document.documentElement.classList.contains("dark")
-  );
-
-  useEffect(() => {
-    document.documentElement.classList.toggle("dark", dark);
-  }, [dark]);
+  const { dark, toggleDark } = useTheme();
 
   return (
     <button
-      onClick={() => setDark((d) => !d)}
+      onClick={toggleDark}
       aria-label="Toggle theme"
       style={{
         background: "none",

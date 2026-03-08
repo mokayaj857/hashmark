@@ -12,54 +12,27 @@ import White from './Components/white';
 import About from './Components/About';
 import Solution from './Components/Solution';
 import Verify from './Components/Verify';
+import { ThemeProvider } from './context/ThemeContext';
 import './index.css';
 const router = createBrowserRouter([
-  {
-    path: "hero",
-    element: <Hero />,
-  },
-  {
-    path: "nav",
-    element: <Nav />,
-  },
-  {
-    path: "/",
-    element: <Home />,
-  },
-  {
-    path: "solution",
-    element: <Solution />,
-  },
-  {
-    path: "header",
-    element: <Header />,
-  },
-  {
-    path: "about",
-    element: <About />,
-  },
-  {
-    path: "white",
-    element: <White />,
-  },
-  {
-    path: "verify",
-    element: <Verify />,
-  },
-  {
-    path: "scroll",
-    element: <Scroll />,
-  },
-  {
-    path: "*",
-    element: <ErrorPage />,
-  }
+  { path: "hero",     element: <Hero /> },
+  { path: "nav",      element: <Nav /> },
+  { path: "/",        element: <Home /> },
+  { path: "solution", element: <Solution /> },
+  { path: "header",   element: <Header /> },
+  { path: "about",    element: <About /> },
+  { path: "white",    element: <White /> },
+  { path: "verify",   element: <Verify /> },
+  { path: "scroll",   element: <Scroll /> },
+  { path: "*",        element: <ErrorPage /> },
 ]);
 const rootElement = document.getElementById("root");
 if (rootElement) {
   ReactDOM.createRoot(rootElement).render(
     <React.StrictMode>
-      <RouterProvider router={router} />
+      <ThemeProvider>
+        <RouterProvider router={router} />
+      </ThemeProvider>
     </React.StrictMode>
   );
 } else {

@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTheme } from '../context/ThemeContext';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import {
   Shield, Lock, Database, Zap, CheckCircle2, ArrowRight,
@@ -10,6 +11,7 @@ import {
   Fingerprint, Scale, Newspaper
 } from 'lucide-react';
 import Footer from './Footer';
+import HashmarkLogo from './HashmarkLogo';
 
 const styles = `
   @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Rajdhani:wght@500;600;700&display=swap');
@@ -59,6 +61,7 @@ const itemVariants = {
 };
 
 export default function HashmarkSolutionUI() {
+  const { dark, toggleDark } = useTheme();
   const { scrollYProgress } = useScroll();
   const [activeTab, setActiveTab] = useState(0);
   const [hoveredCard, setHoveredCard] = useState(null);
@@ -69,8 +72,23 @@ export default function HashmarkSolutionUI() {
   return (
     <>
       <style>{styles}</style>
+
+      {/* ── Universal top nav logo ── */}
       <div style={{
-        background: 'linear-gradient(135deg, hsl(240 10% 4%) 0%, hsl(240 5% 8%) 100%)',
+        position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
+        padding: '1rem 2rem',
+        background: dark ? 'rgba(10,10,18,0.7)' : 'rgba(255,255,255,0.8)', backdropFilter: 'blur(20px)',
+        borderBottom: dark ? '1px solid rgba(212,168,67,0.1)' : '1px solid rgba(0,0,0,0.1)',
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+      }}>
+        <HashmarkLogo color={dark ? '#ffffff' : '#0a0a0a'} />
+        <button onClick={toggleDark} aria-label="Toggle theme" style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '7px 14px', borderRadius: 99, cursor: 'pointer', border: dark ? '1.5px solid rgba(212,168,67,0.6)' : '1.5px solid rgba(0,0,0,0.2)', background: dark ? 'rgba(212,168,67,0.12)' : 'rgba(0,0,0,0.06)', transition: 'background 0.3s, border-color 0.3s' }}>
+          {dark ? '☀️' : '🌙'}<span style={{ fontSize: 11, fontWeight: 600, color: dark ? '#D4A843' : '#334155' }}>{dark ? 'Light' : 'Dark'}</span>
+        </button>
+      </div>
+
+      <div style={{
+        background: dark ? 'linear-gradient(135deg, hsl(240 10% 4%) 0%, hsl(240 5% 8%) 100%)' : 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)',
         minHeight: '100vh',
         position: 'relative',
         overflow: 'hidden',
@@ -664,20 +682,8 @@ export default function HashmarkSolutionUI() {
           zIndex: 10,
         }}
       >
-        <motion.div
-          style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', marginBottom: '1rem' }}
-          whileHover={{ scale: 1.06 }}
-        >
-          <motion.span
-            animate={{ rotate: [0, 360] }}
-            transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
-            style={{ fontSize: '1.4rem', color: '#D4A843' }}
-          >
-            #
-          </motion.span>
-          <span style={{ fontWeight: 700, fontSize: '1.4rem', letterSpacing: '0.08em', background: 'linear-gradient(90deg,#D4A843,#b8892e)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
-            HASHMARK
-          </span>
+        <motion.div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem' }} whileHover={{ scale: 1.06 }}>
+          <HashmarkLogo />
         </motion.div>
         <motion.p
           animate={{ opacity: [0.55, 1, 0.55] }}
