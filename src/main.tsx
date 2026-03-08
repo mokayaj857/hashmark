@@ -10,6 +10,7 @@ import Scroll from './Components/scroll';
 import ErrorPage from './Components/ErrorPage';
 import White from './Components/white';
 import About from './Components/About';
+import Solution from './Components/Solution';
 import Verify from './Components/Verify';
 import './index.css';
 const router = createBrowserRouter([
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
+  },
+  {
+    path: "solution",
+    element: <Solution />,
   },
   {
     path: "header",
