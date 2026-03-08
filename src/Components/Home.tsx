@@ -232,10 +232,12 @@ function Panel({
               transition: "height 0.7s cubic-bezier(0.4,0,0.2,1)",
             }
           : {
-              flex: active ? "5 1 0%" : anyHovered ? "0.45 1 0%" : "1 1 0%",
+              flexGrow: active ? 5 : anyHovered ? 0.45 : 1,
+              flexShrink: 0,
+              flexBasis: "0%",
               height: "100%",
               transition:
-                "flex 0.72s cubic-bezier(0.4,0,0.2,1), box-shadow 0.5s ease, transform 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.5s ease",
+                "flex-grow 0.72s cubic-bezier(0.4,0,0.2,1), box-shadow 0.5s ease, transform 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.5s ease",
             }),
         /* Base */
         position: "relative",
@@ -243,7 +245,6 @@ function Panel({
         borderRadius: isMobile ? 14 : 20,
         cursor: "pointer",
         background: "#080808",
-        flexShrink: 0,
         /* Entrance */
         opacity: mounted ? (anyHovered && !isHovered && !autoActive ? 0.55 : 1) : 0,
         transform: mounted

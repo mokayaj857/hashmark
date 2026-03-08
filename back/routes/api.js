@@ -572,4 +572,14 @@ router.post("/faucet", express.json(), async (req, res) => {
   }
 });
 
+/* ── /api/waitlist — store email for early access ── */
+router.post("/waitlist", express.json(), (req, res) => {
+  const { email } = req.body || {};
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+    return res.status(400).json({ error: "Valid email address required." });
+  // Log the signup; persist to DB or external service as needed
+  console.log("[waitlist]", email, new Date().toISOString());
+  res.json({ success: true, message: "You're on the list!" });
+});
+
 module.exports = router;
