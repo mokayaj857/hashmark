@@ -3,7 +3,7 @@
   "framework": "vite",
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "installCommand": "npm install && cd back && npm install",
+  "installCommand": "npm install --legacy-peer-deps && cd back && npm install --legacy-peer-deps",
   "functions": {
     "api/index.js": {
       "maxDuration": 30,
