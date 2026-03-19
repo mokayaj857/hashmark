@@ -7,6 +7,7 @@
  *   npm run deploy:local         → deploys to localhost anvil
  *   npm run deploy:sepolia       → deploys to Sepolia testnet
  *   npm run deploy:base-sepolia  → deploys to Base Sepolia testnet
+ *   npm run deploy:polkavm       → deploys to PolkaVM EVM endpoint
  *
  * Auto-updates back/.env and root .env with the deployed contract address.
  */
@@ -19,18 +20,20 @@ const fs           = require("fs");
 const path         = require("path");
 
 const NETWORK = process.argv[2] || "local";
+const isPolkadotEvm = ["polkavm", "polkadot", "westend", "paseo"].includes(NETWORK);
 
 const RPC = {
   local:         process.env.RPC_URL             || "http://127.0.0.1:8545",
   sepolia:       process.env.SEPOLIA_RPC_URL      || "",
   "base-sepolia": process.env.BASE_SEPOLIA_RPC_URL || "https://sepolia.base.org",
+  polkavm:       process.env.POLKAVM_RPC_URL      || "",
 }[NETWORK];
 
 const KEY = process.env.DEPLOY_PRIVATE_KEY || process.env.PRIVATE_KEY || "";
 
 if (!RPC) {
   console.error(`\n❌  No RPC URL for network "${NETWORK}".`);
-  console.error(`    Set SEPOLIA_RPC_URL or BASE_SEPOLIA_RPC_URL in back/.env.\n`);
+  console.error(`    Set RPC URL env for the network in back/.env (e.g. POLKAVM_RPC_URL).\n`);
   process.exit(1);
 }
 if (!KEY) {
@@ -51,6 +54,7 @@ try {
     `forge create contracts/Hashmark.sol:Hashmark` +
     ` --rpc-url "${RPC}"` +
     ` --private-key "${KEY}"` +
+    (isPolkadotEvm ? ` --legacy --evm-version paris` : ``) +
     ` --broadcast`,
     { cwd: path.join(__dirname, ".."), encoding: "utf8", stdio: ["pipe", "pipe", "pipe"] }
   );

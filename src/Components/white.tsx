@@ -6,21 +6,21 @@ const sections = [
   {
     title: "Abstract",
     content:
-      "Hashmark is an authenticity protocol built on the Base blockchain.It binds digital content to verified devices and decentralized identities at the moment of creation  generating cryptographic proof before manipulation can occur. Content hashes are anchored immutably on Base, creating permanent, verifiable provenance.When meaning is contested, a decentralized Context Court delivers economically secured human judgment.Hashmark doesn’t chase deepfakes.It proves reality.",
+      "Hashmark is an authenticity protocol built on the Polkadot blockchain.It binds digital content to verified devices and decentralized identities at the moment of creation  generating cryptographic proof before manipulation can occur. Content hashes are anchored immutably on Polkadot, creating permanent, verifiable provenance.When meaning is contested, a decentralized Context Court delivers economically secured human judgment.Hashmark doesn’t chase deepfakes.It proves reality.",
   },
   {
     title: "Problem Statement",
     content:
-      "Detection alone cannot win the arms race against generative media. As AI-generated content becomes indistinguishable from reality, forensic detection approaches collapse under exponential improvement in generation tools. Journalists, courts, marketplaces, governments, and platforms do not need better guesswork. They need verifiable proof.Hashmark replaces reactive detection with proactive authenticity   anchored immutably on Base.",
+      "Detection alone cannot win the arms race against generative media. As AI-generated content becomes indistinguishable from reality, forensic detection approaches collapse under exponential improvement in generation tools. Journalists, courts, marketplaces, governments, and platforms do not need better guesswork. They need verifiable proof.Hashmark replaces reactive detection with proactive authenticity   anchored immutably on Polkadot.",
   },
   {
     title: "Design Principles",
     bullets: [
       "Hardware-rooted trust: signatures live in Secure Enclave / Android TEE, never exported.",
       "Identity-first: DIDs with granular rights (Update, Impersonate, Dispute) and device registration.",
-      "Base as the Settlement Layer: Only the content’s hash and metadata go on-chain; the file stays off-chain. Base guarantees immutability, timestamps, and global trust",
+      "Polkadot as the Settlement Layer: Only the content’s hash and metadata go on-chain; the file stays off-chain. Polkadot guarantees immutability, timestamps, and global trust",
       "Human oracle: juror staking, slashing, and escalation to resolve contextual disputes.",
-      "Smart Contract Enforcement: Base smart contracts automatically check content hashes, block duplicates, and record proofs immutably on-chain",
+      "Smart Contract Enforcement: Polkadot smart contracts automatically check content hashes, block duplicates, and record proofs immutably on-chain",
     ],
   },
   {
@@ -39,7 +39,7 @@ const sections = [
         bullets: [
           "Accepts submissions from authorized identities.",
           "Prevents duplicate hashes.",
-          "Records immutable proof on Base.",
+          "Records immutable proof on Polkadot.",
           "Indexes DID-to-content for efficient lookup.",
         ],
       },
@@ -61,7 +61,7 @@ const sections = [
       "The content is hashed",
       "The hash is signed inside secure hardware (Secure Enclave / Android TEE).",
       "The media is stored off-chain",
-      "The hash + identity + metadata are recorded on Base.",
+      "The hash + identity + metadata are recorded on Polkadot.",
       "At that moment, authenticity becomes permanent.",
      
     ],
@@ -82,7 +82,7 @@ const sections = [
       "Mobile capture app with Secure Enclave / TEE integration.",
       "IPFS integration for content pinning.",
       "Public API and SDK for verification and content lookup.",
-      "Smart contract modules native to Base",
+      "Smart contract modules native to Polkadot",
       "Juror reputation system to weight voting and rewards.",
       
     ],
@@ -100,7 +100,7 @@ const sections = [
   {
     title: "Conclusion",
     content:
-      "Hashmark is not a detection tool.It is a foundational authenticity protocol. Built on Base, Hashmark turns the blockchain into a permanent ledger of reality where digital content can be proven, not debated. In a world where synthetic media erodes trust, Hashmark restores it. If reality matters, it should be provable.Hashmark makes it provable.",
+      "Hashmark is not a detection tool.It is a foundational authenticity protocol. Built on Polkadot, Hashmark turns the blockchain into a permanent ledger of reality where digital content can be proven, not debated. In a world where synthetic media erodes trust, Hashmark restores it. If reality matters, it should be provable.Hashmark makes it provable.",
   },
 ];
 

@@ -373,7 +373,7 @@ export default function HashmarkSolutionUI() {
                   { step: 1, title: 'Device Captures', desc: 'Media captured with hardware timestamp', icon: Code2 },
                   { step: 2, title: 'TEE Signs', desc: 'Cryptographic signature in secure enclave', icon: Lock },
                   { step: 3, title: 'DID Binds', desc: 'Identity linked to device with rights', icon: Key },
-                  { step: 4, title: 'Base Anchors', desc: 'Immutable record on blockchain', icon: Database }
+                  { step: 4, title: 'Polkadot Anchors', desc: 'Immutable record on blockchain', icon: Database }
                 ].map((item, i) => (
                   <motion.div
                     key={i}
@@ -690,7 +690,7 @@ export default function HashmarkSolutionUI() {
           transition={{ duration: 3, repeat: Infinity }}
           style={{ fontSize: '0.8rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: dark ? 'hsl(240 5% 50%)' : 'hsl(240 5% 25%)', marginBottom: '2rem' }}
         >
-          Proving reality on Base L2.
+          Proving reality on Polkadot.
         </motion.p>
         <p style={{ fontSize: '0.72rem', color: dark ? 'rgba(255,255,255,0.18)' : 'rgba(0,0,0,0.45)' }}>
           © {new Date().getFullYear()} Hashmark Protocol. All rights reserved.

@@ -28,8 +28,8 @@ const CHAIN_NAMES: Record<number, string> = {
   11155111: "Sepolia Testnet",
   137:      "Polygon Mainnet",
   80001:    "Mumbai Testnet",
-  8453:     "Base Mainnet",
-  84532:    "Base Sepolia",
+  8453:     "Polkadot Mainnet",
+  84532:    "Polkadot Testnet",
   1337:     "Hardhat Local",
   31337:    "Hardhat Local",
 };

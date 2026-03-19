@@ -161,7 +161,7 @@ export default function Home() {
                   <span>Substrate</span>
                 </div>
 
-                {/* Base — official 8-outer + 4-inner + centre star */}
+                {/* Polkadot — official 8-outer + 4-inner + centre star */}
                 <div className="trusted-logo">
                   <svg width="20" height="20" viewBox="0 0 40 40" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="20" cy="20" r="3.2"/>
@@ -178,7 +178,7 @@ export default function Home() {
                     <circle cx="12" cy="20" r="1.4"/>
                     <circle cx="28" cy="20" r="1.4"/>
                   </svg>
-                  <span>Base</span>
+                  <span>Polkadot</span>
                 </div>
 
                 {/* Rust — gear cog */}

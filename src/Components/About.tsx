@@ -271,9 +271,9 @@ function verifyReality(contentHash) {
 
         <section style={{ paddingTop: '8rem', paddingBottom: '8rem', paddingLeft: '1.5rem', paddingRight: '1.5rem', position: 'relative', zIndex: 10 }}>
           <div style={{ maxWidth: '80rem', margin: '0 auto' }}>
-            <SectionHeading eyebrow="The Pipeline" title="Cryptographic Chain of Custody" align="center" description="From the moment light hits the sensor to the eternal ledger on Base." />
+            <SectionHeading eyebrow="The Pipeline" title="Cryptographic Chain of Custody" align="center" description="From the moment light hits the sensor to the eternal ledger on Polkadot." />
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '2rem', position: 'relative', marginTop: '5rem' }}>
-              {[{ title: 'Capture', desc: 'Hardware TEE signs sensor data instantly', icon: Microscope, color: `hsl(var(--primary))` }, { title: 'Hash', desc: 'Content generates a unique cryptographic CID', icon: Hash, color: `hsl(var(--accent))` }, { title: 'Bind', desc: 'Tied to decentralized identity (DID)', icon: Fingerprint, color: `hsl(var(--primary))` }, { title: 'Anchor', desc: 'State permanently written to Base L2', icon: Network, color: `hsl(var(--accent))` }].map((step, i) => (
+              {[{ title: 'Capture', desc: 'Hardware TEE signs sensor data instantly', icon: Microscope, color: `hsl(var(--primary))` }, { title: 'Hash', desc: 'Content generates a unique cryptographic CID', icon: Hash, color: `hsl(var(--accent))` }, { title: 'Bind', desc: 'Tied to decentralized identity (DID)', icon: Fingerprint, color: `hsl(var(--primary))` }, { title: 'Anchor', desc: 'State permanently written to Polkadot', icon: Network, color: `hsl(var(--accent))` }].map((step, i) => (
                 <motion.div key={i} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-50px' }} transition={{ duration: 0.6, delay: i * 0.15 }} onHoverStart={() => setHoveredCard(i)} onHoverEnd={() => setHoveredCard(null)} style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
                   <motion.div className="glass-panel" style={{ width: '6rem', height: '6rem', borderRadius: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.5rem', position: 'relative', zIndex: 10, boxShadow: '0 0 30px rgba(0, 0, 0, 0.5)' }} whileHover={{ scale: 1.15, boxShadow: '0 0 60px rgba(212, 168, 67, 0.4)' }} animate={hoveredCard === i ? { y: -10 } : { y: 0 }}>
                     <motion.div animate={hoveredCard === i ? { rotate: 360 } : { rotate: 0 }} transition={{ duration: 1 }}>
@@ -294,7 +294,7 @@ function verifyReality(contentHash) {
 
         <section style={{ paddingTop: '8rem', paddingBottom: '8rem', paddingLeft: '1.5rem', paddingRight: '1.5rem', backgroundColor: `hsl(var(--background) / 0.4)`, borderTop: `1px solid hsl(var(--foreground) / 0.05)`, borderBottom: `1px solid hsl(var(--foreground) / 0.05)`, backdropFilter: 'blur(8px)', position: 'relative', zIndex: 10 }}>
           <div style={{ maxWidth: '80rem', margin: '0 auto' }}>
-            <SectionHeading eyebrow="Architecture" title="Built on Base" />
+            <SectionHeading eyebrow="Architecture" title="Built on Polkadot" />
             <motion.div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }} variants={containerVariants} initial="hidden" whileInView="visible" viewport={{ once: true }}>
               {[{ icon: Fingerprint, title: 'Identity Registry', desc: 'Maps public keys to verified hardware enclaves and human identities.' }, { icon: LockKeyhole, title: 'Content Registry', desc: 'Immutable ledger mapping CIDs to capture metadata, timestamps, and geospatial data.' }, { icon: Scale, title: 'Context Court', desc: 'Decentralized dispute resolution for challenging metadata anomalies.' }].map((card, i) => (
                 <motion.div key={i} variants={revealVariants} className="glass-panel" style={{ borderRadius: '1.5rem', padding: '2rem', position: 'relative', overflow: 'hidden', cursor: 'default' }} whileHover={{ y: -8 }}>
@@ -344,7 +344,7 @@ function verifyReality(contentHash) {
             <HashmarkLogo />
           </motion.div>
           <motion.p style={{ color: `hsl(var(--muted-foreground))`, fontSize: '0.875rem', fontFamily: 'var(--font-display)', letterSpacing: '0.05em', textTransform: 'uppercase' }} animate={{ opacity: [0.6, 1] }} transition={{ duration: 2, repeat: Infinity }}>
-            Proving reality on Base L2.
+            Proving reality on Polkadot.
           </motion.p>
           <motion.div style={{ marginTop: '3rem', fontSize: '0.75rem', color: `hsl(var(--muted-foreground) / 0.5)` }} whileHover={{ opacity: 1 }}>
             © {new Date().getFullYear()} Hashmark Protocol. All rights reserved.
